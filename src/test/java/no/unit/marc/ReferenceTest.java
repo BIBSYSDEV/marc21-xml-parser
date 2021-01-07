@@ -17,8 +17,8 @@ public class ReferenceTest {
     @Test
     public void reference_hasTitle() {
         Reference reference = new Reference();
-        reference.setTitle(SOME_TITLE);
-        assertEquals(SOME_TITLE, reference.getTitle());
+        reference.setMainTitle(SOME_TITLE);
+        assertEquals(SOME_TITLE, reference.getMainTitle());
     }
 
 }

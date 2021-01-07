@@ -36,8 +36,8 @@ public class AlmaRecordParserTest {
         InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.extractPublicationTitle(xml);
-        assertTrue(reference.getTitle().contains(EXPECTED_TITLE));
+        Reference reference = almaRecordParser.parse(xml);
+        assertTrue(reference.getMainTitle().contains(EXPECTED_TITLE));
     }
     @Ignore
     @Test
@@ -46,8 +46,8 @@ public class AlmaRecordParserTest {
         InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_WITH_SUBTITLE);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.extractPublicationTitle(xml);
-        assertTrue(reference.getTitle().contains(EXPECTED_SUBTITLE));
+        Reference reference = almaRecordParser.parse(xml);
+        assertTrue(reference.getMainTitle().contains(EXPECTED_SUBTITLE));
     }
     @Ignore
     @Test
@@ -56,8 +56,8 @@ public class AlmaRecordParserTest {
         InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_ZERO_HITS);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.extractPublicationTitle(xml);
-        assertNull(reference.getTitle());
+        Reference reference = almaRecordParser.parse(xml);
+        assertNull(reference.getMainTitle());
     }
     @Ignore
     @Test
@@ -65,7 +65,7 @@ public class AlmaRecordParserTest {
         InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_END_TRUNCATED);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.extractPublicationTitle(xml));
+        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.parse(xml));
     }
     @Ignore
     @Test
@@ -73,6 +73,6 @@ public class AlmaRecordParserTest {
         InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_START_TRUNCATED);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.extractPublicationTitle(xml));
+        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.parse(xml));
     }
 }

@@ -49,7 +49,7 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
                 AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-                Reference json = almaRecordParser.extractPublicationTitle(xml);
+                Reference json = almaRecordParser.parse(xml);
                 gatewayResponse.setBody(gson.toJson(json, Reference.class));
                 gatewayResponse.setStatusCode(Response.Status.OK.getStatusCode());
         } catch (IOException | TransformerException | SAXException | ParserConfigurationException
