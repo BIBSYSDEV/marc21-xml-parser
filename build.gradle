@@ -53,10 +53,10 @@ pmd {
     ignoreFailures = false
 }
 
-checkstyle {
-    configFile = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml').asFile()
-    showViolations = true
-}
+//checkstyle {
+//    configFile = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml').asFile()
+//    showViolations = true
+//}
 
 tasks.withType(Checkstyle) {
     reports {
