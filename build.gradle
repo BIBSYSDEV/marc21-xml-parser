@@ -56,7 +56,6 @@ pmd {
 checkstyle {
     configFile = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml').asFile()
     showViolations = true
-    toolVersion '8.2';    // your choice here
 }
 
 tasks.withType(Checkstyle) {
