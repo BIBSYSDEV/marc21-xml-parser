@@ -44,8 +44,8 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             return gatewayResponse;
         }
 
-        Map<String, String> queryStringParameters = (Map<String, String>) input.get(BODY_KEY);
-        String xml = queryStringParameters.get(XMLRECORD_KEY);
+        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
+        String xml = body.get(XMLRECORD_KEY);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             RecordParser recordParser = new RecordParser();
@@ -67,8 +67,10 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
                 || Objects.isNull(input.get(BODY_KEY))) {
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
-        Map<String, String> queryStringParameters = (Map<String, String>) input.get(BODY_KEY);
-        final String xml = queryStringParameters.get(XMLRECORD_KEY);
+        Object rawBody = input.get(BODY_KEY);
+        System.out.printf("body: " + rawBody);
+        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
+        String xml = body.get(XMLRECORD_KEY);
         if (StringUtils.isEmpty(xml)) {
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
         }
