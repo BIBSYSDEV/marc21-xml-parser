@@ -25,7 +25,7 @@ public class NamespacefResolverTest {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(AlmaRecordParserTest.SRU_RESPONSE_2_HITS);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(RecordParserTest.SRU_RESPONSE_2_HITS);
         Document document = documentBuilder.parse(stream);
         assertNull(new NamespaceResolver(document).getPrefix("http://www.loc.gov/MARC21/slim"));
     }
@@ -35,7 +35,7 @@ public class NamespacefResolverTest {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true);
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(AlmaRecordParserTest.SRU_RESPONSE_2_HITS);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(RecordParserTest.SRU_RESPONSE_2_HITS);
         Document document = documentBuilder.parse(stream);
         assertNull(new NamespaceResolver(document).getPrefixes("http://www.loc.gov/MARC21/slim"));
     }

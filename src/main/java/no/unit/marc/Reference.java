@@ -2,6 +2,9 @@ package no.unit.marc;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Reference {
 
     @SerializedName("id")
@@ -14,8 +17,8 @@ public class Reference {
     private String statementOfResponsibility;
     @SerializedName("numberOfPartTitle")
     private String numberOfPartTitle;
-    @SerializedName("author")
-    private String author;
+    @SerializedName("authors")
+    private List<String> authors;
     @SerializedName("year")
     private String year;
     @SerializedName("isbn")
@@ -27,7 +30,7 @@ public class Reference {
     @SerializedName("xmlPresentation")
     private String xmlPresentation;
     @SerializedName("linePresentation")
-    private String linePresentation ;
+    private String linePresentation;
 
     public void setMainTitle(String mainTitle) {
         this.mainTitle = mainTitle;
@@ -61,12 +64,12 @@ public class Reference {
         this.numberOfPartTitle = numberOfPartTitle;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public String getYear() {
@@ -125,4 +128,14 @@ public class Reference {
         return paralleltitle;
     }
 
+    /**
+     * Add an author to the list of authors
+     * @param author
+     */
+    public void addAuthor(String author) {
+        if (authors == null) {
+            authors = new ArrayList<>();
+        }
+        authors.add(author);
+    }
 }

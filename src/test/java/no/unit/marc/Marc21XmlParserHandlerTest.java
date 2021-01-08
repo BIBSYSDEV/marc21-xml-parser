@@ -63,6 +63,8 @@ public class Marc21XmlParserHandlerTest {
             "    </datafield>\n" +
             "</record>\n";
 
+    public static final String EXPECTED_MAINTITLE = "Emotions and legal judgements :";
+
     @Test
     public void testFetchRecord_MissingBody() {
 
@@ -96,12 +98,12 @@ public class Marc21XmlParserHandlerTest {
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, body);
 
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
         Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
 
         final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
         assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
-        assertTrue(gatewayResponse.getBody().contains(AlmaRecordParserTest.EXPECTED_SUBTITLE));
+        assertTrue(gatewayResponse.getBody().contains(EXPECTED_MAINTITLE));
     }
 
 }

@@ -5,8 +5,9 @@ import org.w3c.dom.Document;
 import javax.xml.namespace.NamespaceContext;
 import java.util.Iterator;
 
+import static org.marc4j.Constants.MARCXML_NS_URI;
+
 public class NamespaceResolver implements NamespaceContext {
-    public static final String MARC21_PREFIX = "http://www.loc.gov/MARC21/slim";
 
     // the delegate
     private final transient Document sourceDocument;
@@ -29,7 +30,7 @@ public class NamespaceResolver implements NamespaceContext {
      */
     @Override
     public String getNamespaceURI(String prefix) {
-        return MARC21_PREFIX;
+        return MARCXML_NS_URI;
     }
 
     /**

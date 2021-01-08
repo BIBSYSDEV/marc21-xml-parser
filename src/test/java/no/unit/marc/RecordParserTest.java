@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class AlmaRecordParserTest {
+public class RecordParserTest {
 
     public static final String SRU_RESPONSE_2_HITS = "/SRU_response_2_hits.xml";
     public static final String SRU_RESPONSE_WITH_SUBTITLE = "/SRU_response_with_subtitle.xml";
@@ -25,54 +25,53 @@ public class AlmaRecordParserTest {
     public static final String SRU_RESPONSE_START_TRUNCATED = "/SRU_response_top_truncated.xml";
     public static final String SRU_RESPONSE_ZERO_HITS = "/SRU_zero_hits.xml";
     public static final String EXPECTED_TITLE = "Bedriftsintern telekommunikasjon";
-    public static final String EXPECTED_SUBTITLE =
-            "Emotions and legal judgements : normative issues and empirical findings";
+    public static final String EXPECTED_PARALLELTITLE = "normative issues and empirical findings";
 
 
     @Ignore
     @Test
     public void testExtractPublicationTitle() throws IOException, ParserConfigurationException, TransformerException,
             SAXException, XPathExpressionException {
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.parse(xml);
+        RecordParser recordParser = new RecordParser();
+        Reference reference = recordParser.parse(xml);
         assertTrue(reference.getMainTitle().contains(EXPECTED_TITLE));
     }
     @Ignore
     @Test
     public void testExtractPublicationSubtitle() throws IOException, ParserConfigurationException, TransformerException,
             SAXException, XPathExpressionException {
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_WITH_SUBTITLE);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_WITH_SUBTITLE);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.parse(xml);
-        assertTrue(reference.getMainTitle().contains(EXPECTED_SUBTITLE));
+        RecordParser recordParser = new RecordParser();
+        Reference reference = recordParser.parse(xml);
+        assertTrue(reference.getParalleltitle().contains(EXPECTED_PARALLELTITLE));
     }
     @Ignore
     @Test
     public void testExtractPublicationTitle_FromZeroHits() throws IOException, ParserConfigurationException,
             TransformerException, SAXException, XPathExpressionException {
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_ZERO_HITS);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_ZERO_HITS);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Reference reference = almaRecordParser.parse(xml);
+        RecordParser recordParser = new RecordParser();
+        Reference reference = recordParser.parse(xml);
         assertNull(reference.getMainTitle());
     }
     @Ignore
     @Test
     public void testExtractPublicationTitle_MalformedSruResponseOnEnd() throws IOException {
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_END_TRUNCATED);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_END_TRUNCATED);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.parse(xml));
+        RecordParser recordParser = new RecordParser();
+        Assertions.assertThrows(SAXException.class, () -> recordParser.parse(xml));
     }
     @Ignore
     @Test
     public void testExtractPublicationTitle_MalformedSruResponseOnStart() throws IOException {
-        InputStream stream = AlmaRecordParserTest.class.getResourceAsStream(SRU_RESPONSE_START_TRUNCATED);
+        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_START_TRUNCATED);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
-        AlmaRecordParser almaRecordParser = new AlmaRecordParser();
-        Assertions.assertThrows(SAXException.class, () -> almaRecordParser.parse(xml));
+        RecordParser recordParser = new RecordParser();
+        Assertions.assertThrows(SAXException.class, () -> recordParser.parse(xml));
     }
 }
