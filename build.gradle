@@ -53,12 +53,10 @@ pmd {
     ignoreFailures = false
 }
 
-System.setProperty( "org.checkstyle.google.suppressionfilter.config", project.projectDir.toString()+"/checkstyle-suppressions.xml" )
 checkstyle {
-    ignoreFailures = false
-    maxWarnings = 0
     configFile = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml').asFile()
     showViolations = true
+    toolVersion '8.2';    // your choice here
 }
 
 tasks.withType(Checkstyle) {
