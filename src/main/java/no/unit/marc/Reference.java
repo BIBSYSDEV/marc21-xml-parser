@@ -129,8 +129,8 @@ public class Reference {
     }
 
     /**
-     * Add an author to the list of authors
-     * @param author
+     * Add an author to the list of authors.
+     * @param author the author to add
      */
     public void addAuthor(String author) {
         if (authors == null) {

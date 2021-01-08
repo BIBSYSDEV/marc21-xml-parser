@@ -38,6 +38,7 @@ public class RecordParserTest {
         Reference reference = recordParser.parse(xml);
         assertTrue(reference.getMainTitle().contains(EXPECTED_TITLE));
     }
+
     @Ignore
     @Test
     public void testExtractPublicationSubtitle() throws IOException, ParserConfigurationException, TransformerException,
@@ -48,6 +49,7 @@ public class RecordParserTest {
         Reference reference = recordParser.parse(xml);
         assertTrue(reference.getParalleltitle().contains(EXPECTED_PARALLELTITLE));
     }
+
     @Ignore
     @Test
     public void testExtractPublicationTitle_FromZeroHits() throws IOException, ParserConfigurationException,
@@ -58,6 +60,7 @@ public class RecordParserTest {
         Reference reference = recordParser.parse(xml);
         assertNull(reference.getMainTitle());
     }
+
     @Ignore
     @Test
     public void testExtractPublicationTitle_MalformedSruResponseOnEnd() throws IOException {
@@ -66,6 +69,7 @@ public class RecordParserTest {
         RecordParser recordParser = new RecordParser();
         Assertions.assertThrows(SAXException.class, () -> recordParser.parse(xml));
     }
+
     @Ignore
     @Test
     public void testExtractPublicationTitle_MalformedSruResponseOnStart() throws IOException {
