@@ -68,7 +68,8 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
         Object body = input.get(BODY_KEY);
-        System.out.println(body.getClass());
+        System.out.println("Class: " + body.getClass());
+        System.out.println(body);
     }
 
 }
