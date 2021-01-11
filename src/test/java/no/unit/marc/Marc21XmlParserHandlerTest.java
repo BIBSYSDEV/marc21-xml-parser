@@ -3,7 +3,6 @@ package no.unit.marc;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Marc21XmlParserHandlerTest {
 
-    public static final String SRU_RESPONSE_2_HITS = "/SRU_response_2_hits.xml";
-    public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n" 
+    public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n" 
             + "    <controlfield tag=\"001\">991004248644702201</controlfield>\n" 
             + "    <controlfield tag=\"005\">20190130103301.0</controlfield>\n" 
@@ -98,7 +96,6 @@ public class Marc21XmlParserHandlerTest {
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, body);
 
-        InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_2_HITS);
         Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
 
         final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
