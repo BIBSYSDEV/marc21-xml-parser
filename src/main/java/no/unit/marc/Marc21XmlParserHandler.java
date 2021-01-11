@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import javax.ws.rs.core.Response;
@@ -67,9 +68,11 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
                 || Objects.isNull(input.get(BODY_KEY))) {
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
-        Object body = input.get(BODY_KEY);
-        System.out.println("Class: " + body.getClass());
-        System.out.println(body);
+        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
+        String xml = body.get(XMLRECORD_KEY);
+        if (StringUtils.isEmpty(xml)) {
+            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
+        }
     }
 
 }
