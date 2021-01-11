@@ -37,7 +37,7 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         GatewayResponse gatewayResponse = new GatewayResponse();
         try {
             this.checkParameters(input);
-        } catch (Exception e) {
+        } catch (MissingParameterException e) {
             String exception = DebugUtils.dumpException(e);
             System.out.println(exception);
             gatewayResponse.setErrorBody(e.getMessage()); // Exception contains missing parameter name
@@ -68,7 +68,7 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
                 || Objects.isNull(input.get(BODY_KEY))) {
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
-        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
+        Map<String, String> body = (Map<String, String>) input.get(XMLRECORD_KEY);
         String xml = body.get(XMLRECORD_KEY);
         if (StringUtils.isEmpty(xml)) {
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
