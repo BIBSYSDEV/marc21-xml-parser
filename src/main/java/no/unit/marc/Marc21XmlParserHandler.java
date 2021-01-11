@@ -70,10 +70,6 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         }
         Object body = input.get(BODY_KEY);
         System.out.println(body.getClass());
-//        String xml = body.get(XMLRECORD_KEY);
-//        if (StringUtils.isEmpty(xml)) {
-//            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
-//        }
     }
 
 }
