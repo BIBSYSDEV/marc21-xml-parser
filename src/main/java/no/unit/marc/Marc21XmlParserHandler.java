@@ -81,9 +81,9 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         JsonElement jsonElement = convertedObject.get(BODY_KEY);
         if (Objects.isNull(jsonElement) || !jsonElement.isJsonPrimitive()) {
             try {
-                System.out.println(jsonElement.getAsString());
+                System.out.println("and my jsonElement is : " + jsonElement.getAsString());
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("and exception is: " + e);
             }
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING + eventBody);
         } else {
