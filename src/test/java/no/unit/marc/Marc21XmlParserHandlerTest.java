@@ -1,8 +1,5 @@
 package no.unit.marc;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import nva.commons.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Marc21XmlParserHandlerTest {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
             + "    <controlfield tag=\"001\">991004248644702201</controlfield>\n"
@@ -89,14 +85,11 @@ public class Marc21XmlParserHandlerTest {
     }
 
     @Test
-    public void testFetchRecordTitle() throws JsonProcessingException {
-        String xml = MOCK_XML;
-        String simpleQuoted = StringUtils.replace(xml, "\"", "'");
-        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
-        String MOCK_BODY = "{\"xmlRecord\": \"" + noLineFeeds + "\"}";
-        String escapedXML =  objectMapper.writeValueAsString(MOCK_BODY);
+    public void testFetchRecordTitle() {
+        String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
+        String MOCK_BODY = "{\"xmlRecord\": \"" + simpleQuoted + "\"}";
         Map<String, Object> event = new HashMap<>();
-        event.put(Marc21XmlParserHandler.BODY_KEY, escapedXML);
+        event.put(Marc21XmlParserHandler.BODY_KEY, MOCK_BODY);
 
         Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
 
