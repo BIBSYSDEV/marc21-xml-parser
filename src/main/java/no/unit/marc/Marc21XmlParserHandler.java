@@ -2,10 +2,7 @@ package no.unit.marc;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
@@ -49,10 +46,8 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         }
 
         String bodyEvent = (String) input.get(BODY_KEY);
-        JsonObject convertedObject = new Gson().fromJson(bodyEvent, JsonObject.class);
-        JsonElement jsonElement = convertedObject.get(BODY_KEY);
-        JsonObject jsonObject = new Gson().fromJson(jsonElement, JsonObject.class);
-        JsonElement xmlElement = jsonObject.get(XMLRECORD_KEY);
+        JsonObject asJsonObject = JsonParser.parseString(bodyEvent).getAsJsonObject();
+        JsonElement xmlElement = asJsonObject.get(XMLRECORD_KEY);
         String xml = xmlElement.getAsString();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
@@ -74,27 +69,24 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
                 || Objects.isNull(input.get(BODY_KEY))) {
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
-        String eventBody = (String) input.get(BODY_KEY);
-        System.out.println("body is here: " + eventBody);
-        JsonObject convertedObject = new Gson().fromJson(eventBody, JsonObject.class);
-        System.out.println("gson object is here: " + convertedObject.toString());
-        for (String s : convertedObject.keySet()) {
+        String bodyEvent = (String) input.get(BODY_KEY);
+        System.out.println("body is here: " + bodyEvent);
+        JsonObject asJsonObject = JsonParser.parseString(bodyEvent).getAsJsonObject();
+        System.out.println("gson object is here: " + asJsonObject.toString());
+        for (String s : asJsonObject.keySet()) {
             System.out.println("keys in gson: " + s);
-            System.out.println("and values :" + convertedObject.get(s));
+            System.out.println("and values :" + asJsonObject.get(s));
         }
-        JsonElement jsonElement = convertedObject.get(BODY_KEY);
+        JsonElement jsonElement = asJsonObject.get(BODY_KEY);
+        JsonElement xmlElement = asJsonObject.get(XMLRECORD_KEY);
         if (Objects.isNull(jsonElement) || !jsonElement.isJsonPrimitive()) {
-            String msg = "";
-            try {
-                msg = " and my jsonElement is : " + jsonElement.getAsString();
-            } catch (Exception e) {
-                msg = " and exception is: " + e;
-            }
-            throw new MissingParameterException(EVENT_IS_MALFORMED_MISSING + msg);
+            throw new MissingParameterException(EVENT_IS_MALFORMED_MISSING + jsonElement.toString());
+        } else if (Objects.isNull(xmlElement) || !xmlElement.isJsonPrimitive()) {
+            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING + xmlElement.toString());
         } else {
-            String recordXML = jsonElement.getAsString();
+            String recordXML = xmlElement.getAsString();
             if (StringUtils.isEmpty(recordXML)) {
-                throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_EMPTY + eventBody);
+                throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_EMPTY + xmlElement);
             }
         }
     }
