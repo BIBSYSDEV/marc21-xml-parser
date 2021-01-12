@@ -78,11 +78,12 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             System.out.println("and values :" + asJsonObject.get(s));
         }
         JsonElement jsonElement = asJsonObject.get(BODY_KEY);
-        JsonElement xmlElement = asJsonObject.get(XMLRECORD_KEY);
+        JsonObject asJsonObject1 = jsonElement.getAsJsonObject();
+        JsonElement xmlElement = asJsonObject1.get(XMLRECORD_KEY);
         if (Objects.isNull(jsonElement) || !jsonElement.isJsonPrimitive()) {
             throw new MissingParameterException(EVENT_IS_MALFORMED_MISSING + jsonElement.toString());
         } else if (Objects.isNull(xmlElement) || !xmlElement.isJsonPrimitive()) {
-            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING + xmlElement.toString());
+            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
         } else {
             String recordXML = xmlElement.getAsString();
             if (StringUtils.isEmpty(recordXML)) {
