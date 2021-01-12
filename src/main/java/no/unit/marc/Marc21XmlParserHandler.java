@@ -2,6 +2,10 @@ package no.unit.marc;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nva.commons.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +27,9 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
     public static final String MANDATORY_PARAMETER_XMLRECORD_MISSING = "Mandatory parameter 'xmlRecord' is missing.";
     public static final String BODY_KEY = "body";
     public static final String XMLRECORD_KEY = "xmlRecord";
+    public static final String EMPTY_STRING = "";
+
+    private static final ObjectMapper mapper = JsonUtils.objectMapper;
 
     /**
      * Main lambda function to parse marc21-xml records.
@@ -45,8 +52,8 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             return gatewayResponse;
         }
 
-        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
-        String xml = body.get(XMLRECORD_KEY);
+        String bodyEvent = (String) input.get(BODY_KEY);
+        String xml = getValueFromJsonObject(bodyEvent, XMLRECORD_KEY);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             RecordParser recordParser = new RecordParser();
@@ -62,16 +69,25 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         return gatewayResponse;
     }
 
-    @SuppressWarnings("unchecked")
     private void checkParameters(Map<String, Object> input) {
         if (Objects.isNull(input) || !input.containsKey(BODY_KEY)
                 || Objects.isNull(input.get(BODY_KEY))) {
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
-        Map<String, String> body = (Map<String, String>) input.get(BODY_KEY);
-        String xml = body.get(XMLRECORD_KEY);
-        if (StringUtils.isEmpty(xml)) {
+        String eventBody = (String) input.get(BODY_KEY);
+        final String nameValue = getValueFromJsonObject(eventBody, XMLRECORD_KEY);
+        if (StringUtils.isEmpty(nameValue)) {
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
+        }
+    }
+
+    protected String getValueFromJsonObject(String body, String key) {
+        try {
+            JsonNode jsonNode = mapper.readTree(body).at(key);
+            return Objects.isNull(jsonNode) ? EMPTY_STRING : jsonNode.textValue();
+        } catch (JsonProcessingException e) {
+            System.out.println(e);
+            return EMPTY_STRING;
         }
     }
 
