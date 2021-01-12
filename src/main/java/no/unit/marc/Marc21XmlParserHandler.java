@@ -78,8 +78,13 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             System.out.println("keys in gson: " + s);
             System.out.println("and values :" + convertedObject.get(s));
         }
-        JsonElement jsonElement = convertedObject.get(XMLRECORD_KEY);
+        JsonElement jsonElement = convertedObject.get(BODY_KEY);
         if (Objects.isNull(jsonElement) || !jsonElement.isJsonPrimitive()) {
+            try {
+                System.out.println(jsonElement.getAsString());
+            } catch (Exception e) {
+                System.out.println(e);
+            }
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING + eventBody);
         } else {
             String recordXML = jsonElement.getAsString();
