@@ -47,7 +47,10 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
 
         String bodyEvent = (String) input.get(BODY_KEY);
         JsonObject asJsonObject = JsonParser.parseString(bodyEvent).getAsJsonObject();
-        JsonElement xmlElement = asJsonObject.get(XMLRECORD_KEY);
+        JsonElement jsonElement = asJsonObject.get(BODY_KEY);
+        String jsonstring = jsonElement.getAsString();
+        JsonObject asJsonObject1 = JsonParser.parseString(jsonstring).getAsJsonObject();
+        JsonElement xmlElement = asJsonObject1.get(XMLRECORD_KEY);
         String xml = xmlElement.getAsString();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
