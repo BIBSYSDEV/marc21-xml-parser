@@ -22,6 +22,7 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "An error occurred, error has been logged";
     public static final String MISSING_EVENT_ELEMENT_BODY = "Missing event element 'body'.";
     public static final String MANDATORY_PARAMETER_XMLRECORD_MISSING = "Mandatory parameter 'xmlRecord' is missing.";
+    public static final String EVENT_IS_MALFORMED_MISSING = "Event is malformed.";
     public static final String MANDATORY_PARAMETER_XMLRECORD_EMPTY = "Mandatory parameter 'xmlRecord' is empty.";
     public static final String BODY_KEY = "body";
     public static final String XMLRECORD_KEY = "xmlRecord";
@@ -80,12 +81,13 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         }
         JsonElement jsonElement = convertedObject.get(BODY_KEY);
         if (Objects.isNull(jsonElement) || !jsonElement.isJsonPrimitive()) {
+            String msg = "";
             try {
-                System.out.println("and my jsonElement is : " + jsonElement.getAsString());
+                msg = " and my jsonElement is : " + jsonElement.getAsString();
             } catch (Exception e) {
-                System.out.println("and exception is: " + e);
+                msg = " and exception is: " + e;
             }
-            throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING + eventBody);
+            throw new MissingParameterException(EVENT_IS_MALFORMED_MISSING + msg);
         } else {
             String recordXML = jsonElement.getAsString();
             if (StringUtils.isEmpty(recordXML)) {
