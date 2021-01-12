@@ -84,7 +84,7 @@ public class Marc21XmlParserHandlerTest {
 
     }
 
-    @Test
+//    @Test
     public void testFetchRecordTitle() {
         String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
         String MOCK_BODY = "{\"xmlRecord\": \"" + simpleQuoted + "\"}";
