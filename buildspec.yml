@@ -37,7 +37,6 @@ phases:
       - echo Build started on `date`
       # Use AWS SAM to build and package the application by using AWS CloudFormation
       - sam build
-      - ./gradlew --stacktrace
       - sam package --s3-bucket $S3_BUCKET --output-template-file packaged.yml
 
       # Lint after 'package'
