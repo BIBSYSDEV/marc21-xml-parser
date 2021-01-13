@@ -88,7 +88,7 @@ public class Marc21XmlParserHandlerTest {
     public void testFetchRecordTitle() {
         String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
         String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
-        String MOCK_BODY = "{\"xmlRecord\": \"" + noLineFeeds + "\"}";
+        String MOCK_BODY = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, MOCK_BODY);
 
