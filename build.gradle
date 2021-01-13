@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-//    id 'checkstyle'
+    id 'checkstyle'
     id 'pmd'
     id 'jacoco'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
@@ -53,18 +53,18 @@ pmd {
     ignoreFailures = false
 }
 
-//checkstyle {
-//    configFile = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml').asFile()
-//    showViolations = true
-//}
+checkstyle {
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    showViolations = true
+}
 
-//tasks.withType(Checkstyle) {
-//    reports {
-//        xml.enabled false
-//        html.enabled true
-//        html.stylesheet rootProject.resources.text.fromFile('config/checkstyle/checkstyle-simple.xsl')
-//    }
-//}
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet rootProject.resources.text.fromFile('config/checkstyle/checkstyle-simple.xsl')
+    }
+}
 
 jacocoTestReport {
     reports {
