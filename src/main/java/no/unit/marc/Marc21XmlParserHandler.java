@@ -19,7 +19,6 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "An error occurred, error has been logged";
     public static final String MISSING_EVENT_ELEMENT_BODY = "Missing event element 'body'.";
     public static final String MANDATORY_PARAMETER_XMLRECORD_MISSING = "Mandatory parameter 'xmlRecord' is missing.";
-    public static final String EVENT_IS_MALFORMED_MISSING = "Event is malformed.";
     public static final String MANDATORY_PARAMETER_XMLRECORD_EMPTY = "Mandatory parameter 'xmlRecord' is empty.";
     public static final String BODY_KEY = "body";
     public static final String XMLRECORD_KEY = "xmlRecord";
