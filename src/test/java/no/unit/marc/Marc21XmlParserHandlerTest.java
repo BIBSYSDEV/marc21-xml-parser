@@ -60,7 +60,7 @@ public class Marc21XmlParserHandlerTest {
             + "    <datafield tag=\"915\" ind1=\" \" ind2=\" \">\n"
             + "        <subfield code=\"a\">1</subfield>\n"
             + "    </datafield>\n"
-            + "</record>\n";
+            + "</record>";
 
     public static final String EXPECTED_MAINTITLE = "Emotions and legal judgements :";
 
@@ -84,10 +84,11 @@ public class Marc21XmlParserHandlerTest {
 
     }
 
-//    @Test
+    @Test
     public void testFetchRecordTitle() {
         String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
-        String MOCK_BODY = "{\"xmlRecord\": \"" + simpleQuoted + "\"}";
+        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String MOCK_BODY = "{\"xmlRecord\": \"" + noLineFeeds + "\"}";
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, MOCK_BODY);
 
