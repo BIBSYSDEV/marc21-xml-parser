@@ -53,7 +53,7 @@ public class RecordParser {
     public static final char MARC_CODE_B = 'b';
     public static final char MARC_CODE_C = 'c';
     public static final char MARC_CODE_N = 'n';
-    public static final String MARC_RECORD_XPATH = "//marc:record";
+    public static final String MARC_RECORD_XPATH = "//record";
     public static final String COLLECTION_ELEMENT = "collection";
     public static final int FIRST_NODE = 0;
     public static final String ALMA_PREFIX = "(Alma)";
@@ -203,15 +203,12 @@ public class RecordParser {
 
     private Record getFirstMarcRecord(String xml) throws TransformerException,
             XPathExpressionException, IOException, SAXException, ParserConfigurationException {
-
         DocumentBuilder documentBuilder = createDocumentBuilder();
         Optional<Node> element = extractFirstMarcRecord(xml, documentBuilder);
-
         Record record = null;
         if (element.isPresent()) {
             Document result = documentBuilder.newDocument();
             addExtractedRecordToResultDoc(element.get(), result);
-
             ByteArrayOutputStream outputStream = removeStylesheet(result);
             record = readRecordFromCleanXml(outputStream);
         }

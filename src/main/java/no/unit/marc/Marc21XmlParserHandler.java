@@ -37,8 +37,6 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
         try {
             this.checkParameters(input);
         } catch (MissingParameterException e) {
-            String exception = DebugUtils.dumpException(e);
-            System.out.println(exception);
             gatewayResponse.setErrorBody(e.getMessage()); // Exception contains missing parameter name
             gatewayResponse.setStatusCode(Response.Status.BAD_REQUEST.getStatusCode());
             return gatewayResponse;
@@ -69,20 +67,14 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             throw new MissingParameterException(MISSING_EVENT_ELEMENT_BODY);
         }
         String bodyEvent = (String) input.get(BODY_KEY);
-        System.out.println("body is here: " + bodyEvent);
         JsonObject asJsonObject = JsonParser.parseString(bodyEvent).getAsJsonObject();
-        System.out.println("gson object is here: " + asJsonObject.toString());
-        for (String s : asJsonObject.keySet()) {
-            System.out.println("keys in gson: " + s);
-            System.out.println("and values :" + asJsonObject.get(s));
-        }
         JsonElement xmlElement = asJsonObject.get(XMLRECORD_KEY);
         if (Objects.isNull(xmlElement) || !xmlElement.isJsonPrimitive()) {
             throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_MISSING);
         } else {
             String recordXML = xmlElement.getAsString();
             if (StringUtils.isEmpty(recordXML)) {
-                throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_EMPTY + xmlElement);
+                throw new MissingParameterException(MANDATORY_PARAMETER_XMLRECORD_EMPTY);
             }
         }
     }

@@ -1,5 +1,8 @@
 package no.unit.marc;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -62,7 +65,63 @@ public class Marc21XmlParserHandlerTest {
             + "    </datafield>\n"
             + "</record>";
 
-    public static final String EXPECTED_MAINTITLE = "Emotions and legal judgements :";
+    private static final String EXPECTED_MAINTITLE = "Emotions and legal judgements :";
+    private static final String EXPECTED_AUTHOR = "Fisher, Jude";
+
+    private static final String MOCK_AUTHOR_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<record xmlns:marc=\"info:lc/xmlns/marcxchange-v1\" format=\"MARC21\" id=\"1093967\" type=\"Authority\">\n" +
+            "    <leader>99999nz  a2299999n  4500</leader>\n" +
+            "    <controlfield tag=\"001\">1093967</controlfield>\n" +
+            "    <controlfield tag=\"003\">NO-TrBIB</controlfield>\n" +
+            "    <controlfield tag=\"005\">20200219154815.0</controlfield>\n" +
+            "    <controlfield tag=\"008\">141210n| adz|naabn|         |a|ana|     </controlfield>\n" +
+            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
+            "        <subfield code=\"a\">x01093967</subfield>\n" +
+            "        <subfield code=\"2\">NO-TrBIB</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
+            "        <subfield code=\"a\">http://hdl.handle.net/11250/435017</subfield>\n" +
+            "        <subfield code=\"2\">hdl</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
+            "        <subfield code=\"a\">0000000120242072</subfield>\n" +
+            "        <subfield code=\"2\">isni</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
+            "        <subfield code=\"a\">http://viaf.org/viaf/38828338</subfield>\n" +
+            "        <subfield code=\"2\">viaf</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
+            "        <subfield code=\"a\">80683</subfield>\n" +
+            "        <subfield code=\"2\">bibbi</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\" \" ind2=\" \" tag=\"040\">\n" +
+            "        <subfield code=\"a\">NO-TrBIB</subfield>\n" +
+            "        <subfield code=\"b\">nob</subfield>\n" +
+            "        <subfield code=\"c\">NO-TrBIB</subfield>\n" +
+            "        <subfield code=\"f\">noraf</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"1\" ind2=\" \" tag=\"100\">\n" +
+            "        <subfield code=\"a\">Fisher, Jude</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\" \" ind2=\" \" tag=\"386\">\n" +
+            "        <subfield code=\"a\">eng.</subfield>\n" +
+            "        <subfield code=\"m\">Nasjonalitet/regional gruppe</subfield>\n" +
+            "        <subfield code=\"2\">bs-nasj</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\"1\" ind2=\" \" tag=\"500\">\n" +
+            "        <subfield code=\"a\">Johnson, Jane</subfield>\n" +
+            "        <subfield code=\"d\">1960-</subfield>\n" +
+            "        <subfield code=\"0\">(NO-TrBIB)14068295</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\" \" ind2=\" \" tag=\"667\">\n" +
+            "        <subfield code=\"a\">Psevdonym for Jane Johnson</subfield>\n" +
+            "    </datafield>\n" +
+            "    <datafield ind1=\" \" ind2=\" \" tag=\"901\">\n" +
+            "        <subfield code=\"a\">kat3</subfield>\n" +
+            "    </datafield>\n" +
+            "</record>";
+
 
     @Test
     public void testFetchRecord_MissingBody() {
@@ -97,6 +156,24 @@ public class Marc21XmlParserHandlerTest {
         final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
         assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
         assertTrue(gatewayResponse.getBody().contains(EXPECTED_MAINTITLE));
+    }
+
+    @Test
+    public void testFetchAuthor() {
+        String simpleQuoted = StringUtils.replace(MOCK_AUTHOR_XML, "\"", "'");
+        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
+        Map<String, Object> event = new HashMap<>();
+        event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
+
+        Marc21XmlParserHandler marc21XmlParserHandler = new Marc21XmlParserHandler();
+
+        final GatewayResponse gatewayResponse = marc21XmlParserHandler.handleRequest(event, null);
+        assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
+        assertTrue(gatewayResponse.getBody().contains(EXPECTED_AUTHOR));
+        JsonObject jsonObject = JsonParser.parseString(gatewayResponse.getBody()).getAsJsonObject();
+        JsonElement authors = jsonObject.get("authors");
+        assertEquals(EXPECTED_AUTHOR, authors.getAsJsonArray().get(0).getAsString());
     }
 
 }
