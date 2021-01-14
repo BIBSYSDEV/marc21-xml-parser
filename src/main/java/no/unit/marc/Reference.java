@@ -11,14 +11,14 @@ public class Reference {
     private String id;
     @SerializedName("mainTitle")
     private String mainTitle;
-    @SerializedName("paralleltitle")
+    @SerializedName("parallelTitle")
     private String paralleltitle;
     @SerializedName("statementOfResponsibility")
     private String statementOfResponsibility;
     @SerializedName("numberOfPartTitle")
     private String numberOfPartTitle;
     @SerializedName("authors")
-    private List<String> authors;
+    private List<AuthorReference> authors;
     @SerializedName("year")
     private String year;
     @SerializedName("isbn")
@@ -64,11 +64,11 @@ public class Reference {
         this.numberOfPartTitle = numberOfPartTitle;
     }
 
-    public List<String> getAuthors() {
+    public List<AuthorReference> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(List<AuthorReference> authors) {
         this.authors = authors;
     }
 
@@ -132,10 +132,11 @@ public class Reference {
      * Add an author to the list of authors.
      * @param author the author to add
      */
-    public void addAuthor(String author) {
+    public void addAuthor(AuthorReference author) {
         if (authors == null) {
             authors = new ArrayList<>();
         }
         authors.add(author);
     }
+
 }

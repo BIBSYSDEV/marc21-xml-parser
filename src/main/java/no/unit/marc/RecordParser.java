@@ -21,18 +21,15 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static org.marc4j.Constants.MARCXML_NS_URI;
 
 @SuppressWarnings("PMD.GodClass")
 public class RecordParser {
@@ -52,10 +49,9 @@ public class RecordParser {
     public static final char MARC_CODE_A = 'a';
     public static final char MARC_CODE_B = 'b';
     public static final char MARC_CODE_C = 'c';
+    public static final char MARC_CODE_D = 'd';
     public static final char MARC_CODE_N = 'n';
-    public static final String MARC_RECORD_XPATH = "//record";
-    public static final String COLLECTION_ELEMENT = "collection";
-    public static final int FIRST_NODE = 0;
+    public static final char MARC_CODE_0 = '0';
     public static final String ALMA_PREFIX = "(Alma)";
     public static final String MARC_PREFIX = "marc:";
     public static final String LEADER = "leader";
@@ -97,7 +93,7 @@ public class RecordParser {
         return reference;
     }
 
-
+    @SuppressWarnings("PMD.NcssCount")
     private void extractMetadata(Record record, Reference reference) {
         List<DataField> datafieldList = record.getDataFields();
         boolean standardTitleIn130 = false;
@@ -129,11 +125,23 @@ public class RecordParser {
                 case MARC_TAG_110:
                 case MARC_TAG_111:
                     subfield = dataField.getSubfield(MARC_CODE_A);
+                    String name = null;
                     if (subfield != null) {
-                        String creator = subfield.getData();
-                        if (StringUtils.isNotEmpty(creator)) {
-                            reference.addAuthor(creator);
-                        }
+                        name = subfield.getData();
+                    }
+                    subfield = dataField.getSubfield(MARC_CODE_D);
+                    String date = null;
+                    if (subfield != null) {
+                        date = subfield.getData();
+                    }
+                    subfield = dataField.getSubfield(MARC_CODE_0);
+                    String id = null;
+                    if (subfield != null) {
+                        id = subfield.getData();
+                    }
+                    if (Objects.nonNull(name)) {
+                        AuthorReference author = this.createAuthor(name, date, id);
+                        reference.addAuthor(author);
                     }
                     break;
                 case MARC_TAG_130:
@@ -174,6 +182,10 @@ public class RecordParser {
         }
     }
 
+    private AuthorReference createAuthor(String name, String date, String id) {
+        return new AuthorReference(name, date, id);
+    }
+
     private void handleTitles(Reference reference, DataField dataField) {
         if (StringUtils.isEmpty(reference.getMainTitle())) {
             Subfield subfield = dataField.getSubfield(MARC_CODE_A);
@@ -200,19 +212,10 @@ public class RecordParser {
         }
     }
 
-
-    private Record getFirstMarcRecord(String xml) throws TransformerException,
-            XPathExpressionException, IOException, SAXException, ParserConfigurationException {
-        DocumentBuilder documentBuilder = createDocumentBuilder();
-        Optional<Node> element = extractFirstMarcRecord(xml, documentBuilder);
-        Record record = null;
-        if (element.isPresent()) {
-            Document result = documentBuilder.newDocument();
-            addExtractedRecordToResultDoc(element.get(), result);
+    private Record getFirstMarcRecord(String xml) throws TransformerException{
+            Document result = parseSruXml(xml);
             ByteArrayOutputStream outputStream = removeStylesheet(result);
-            record = readRecordFromCleanXml(outputStream);
-        }
-        return record;
+            return readRecordFromCleanXml(outputStream);
     }
 
     private Record readRecordFromCleanXml(ByteArrayOutputStream outputStream) {
@@ -226,41 +229,6 @@ public class RecordParser {
         TransformerFactory.newInstance().newTransformer().transform(source, outputTarget);
         return outputStream;
     }
-
-    private void addExtractedRecordToResultDoc(Node element, Document result) {
-        Node collection = result.createElementNS(MARCXML_NS_URI, COLLECTION_ELEMENT);
-        result.appendChild(collection);
-        Node node = result.importNode(element, true);
-        result.getElementsByTagNameNS(MARCXML_NS_URI, COLLECTION_ELEMENT).item(FIRST_NODE).appendChild(node);
-    }
-
-    private Optional<Node> extractFirstMarcRecord(String xml, DocumentBuilder documentBuilder)
-            throws SAXException, IOException, XPathExpressionException {
-        Document document = parseInputStreamToXmlDoc(xml, documentBuilder);
-        return searchForTheFirstMarcRecord(document);
-    }
-
-    private Document parseInputStreamToXmlDoc(String xml, DocumentBuilder documentBuilder)
-            throws SAXException, IOException {
-        Document document = documentBuilder.parse(new InputSource(new StringReader(xml)));
-        document.getDocumentElement().normalize();
-        return document;
-    }
-
-    private Optional<Node> searchForTheFirstMarcRecord(Document document) throws XPathExpressionException {
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        xpath.setNamespaceContext(new NamespaceResolver(document));
-        return Optional.ofNullable((Node) xpath.evaluate(MARC_RECORD_XPATH,
-                document.getDocumentElement(),
-                XPathConstants.NODE));
-    }
-
-    private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        return documentBuilderFactory.newDocumentBuilder();
-    }
-
 
     private String parseSruToLinepresentation(String sruxml) {
         StringBuilder lineFormat = new StringBuilder();
