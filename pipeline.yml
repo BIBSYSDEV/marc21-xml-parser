@@ -57,7 +57,7 @@ Parameters:
     Description: CloudFormation stack template configuration filename in the Git repo
   DeployStackName:
     Type: String
-    Default: alma-sru-proxy
+    Default: marc21-xml-parser
     Description: The name to use for the CloudFormation stack managed by this pipeline. (The stack created with the template in StackTemplatePath).
   CodeStarConnectionArn:
     Type: AWS::SSM::Parameter::Value<String>
