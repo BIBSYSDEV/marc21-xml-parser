@@ -10,7 +10,8 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Marc21XmlParserHandlerTest {
 
@@ -68,118 +69,118 @@ public class Marc21XmlParserHandlerTest {
     private static final String EXPECTED_AUTHOR_NAME = "Nesbø, Jo";
     private static final String EXPECTED_AUTHOR_DATE = "1960-";
 
-    private static final String MOCK_AUTHOR_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<record xmlns:marc=\"info:lc/xmlns/marcxchange-v1\" format=\"MARC21\" id=\"90356569\" type=\"Authority\">\n" +
-            "    <leader>99999nz  a2299999n  4500</leader>\n" +
-            "    <controlfield tag=\"001\">90356569</controlfield>\n" +
-            "    <controlfield tag=\"003\">NO-TrBIB</controlfield>\n" +
-            "    <controlfield tag=\"005\">20200219174704.0</controlfield>\n" +
-            "    <controlfield tag=\"008\">110516n| adz|naabn|         |a|ana|     </controlfield>\n" +
-            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
-            "        <subfield code=\"a\">x90356569</subfield>\n" +
-            "        <subfield code=\"2\">NO-TrBIB</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
-            "        <subfield code=\"a\">http://hdl.handle.net/11250/1739227</subfield>\n" +
-            "        <subfield code=\"2\">hdl</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
-            "        <subfield code=\"a\">0000000121305231</subfield>\n" +
-            "        <subfield code=\"2\">isni</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
-            "        <subfield code=\"a\">http://viaf.org/viaf/44460209</subfield>\n" +
-            "        <subfield code=\"2\">viaf</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" +
-            "        <subfield code=\"a\">58139</subfield>\n" +
-            "        <subfield code=\"2\">bibbi</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\" \" ind2=\" \" tag=\"040\">\n" +
-            "        <subfield code=\"a\">NO-TrBIB</subfield>\n" +
-            "        <subfield code=\"b\">nob</subfield>\n" +
-            "        <subfield code=\"c\">NO-TrBIB</subfield>\n" +
-            "        <subfield code=\"f\">noraf</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\" \" ind2=\" \" tag=\"043\">\n" +
-            "        <subfield code=\"c\">NO</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"100\">\n" +
-            "        <subfield code=\"a\">Nesbø, Jo</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\" \" ind2=\" \" tag=\"375\">\n" +
-            "        <subfield code=\"a\">m</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\" \" ind2=\" \" tag=\"386\">\n" +
-            "        <subfield code=\"a\">n.</subfield>\n" +
-            "        <subfield code=\"m\">Nasjonalitet/regional gruppe</subfield>\n" +
-            "        <subfield code=\"2\">bs-nasj</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Naisibo, You</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbö, Yu</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbo, Yu</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Neesbo, Jo</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbë, Ju</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nisbu, Ju</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbē, Jū</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbo, Jo</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesb'o, Ju</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Несбьо, Ю</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbo, Yo</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbo, Iu</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Nesbe, Ju</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">Несбо, Ю</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" +
-            "        <subfield code=\"a\">נסבו, יו</subfield>\n" +
-            "        <subfield code=\"d\">1960-</subfield>\n" +
-            "    </datafield>\n" +
-            "    <datafield ind1=\" \" ind2=\" \" tag=\"901\">\n" +
-            "        <subfield code=\"a\">kat3</subfield>\n" +
-            "    </datafield>\n" +
-            "</record>";
+    private static final String MOCK_AUTHOR_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" 
+            + "<record xmlns:marc=\"info:lc/xmlns/marcxchange-v1\" format=\"MARC21\" id=\"90356569\" type=\"Authority\">\n" 
+            + "    <leader>99999nz  a2299999n  4500</leader>\n" 
+            + "    <controlfield tag=\"001\">90356569</controlfield>\n" 
+            + "    <controlfield tag=\"003\">NO-TrBIB</controlfield>\n" 
+            + "    <controlfield tag=\"005\">20200219174704.0</controlfield>\n" 
+            + "    <controlfield tag=\"008\">110516n| adz|naabn|         |a|ana|     </controlfield>\n" 
+            + "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" 
+            + "        <subfield code=\"a\">x90356569</subfield>\n" 
+            + "        <subfield code=\"2\">NO-TrBIB</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" 
+            + "        <subfield code=\"a\">http://hdl.handle.net/11250/1739227</subfield>\n" 
+            + "        <subfield code=\"2\">hdl</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" 
+            + "        <subfield code=\"a\">0000000121305231</subfield>\n" 
+            + "        <subfield code=\"2\">isni</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" 
+            + "        <subfield code=\"a\">http://viaf.org/viaf/44460209</subfield>\n" 
+            + "        <subfield code=\"2\">viaf</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"7\" ind2=\" \" tag=\"024\">\n" 
+            + "        <subfield code=\"a\">58139</subfield>\n" 
+            + "        <subfield code=\"2\">bibbi</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\" \" ind2=\" \" tag=\"040\">\n" 
+            + "        <subfield code=\"a\">NO-TrBIB</subfield>\n" 
+            + "        <subfield code=\"b\">nob</subfield>\n" 
+            + "        <subfield code=\"c\">NO-TrBIB</subfield>\n" 
+            + "        <subfield code=\"f\">noraf</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\" \" ind2=\" \" tag=\"043\">\n" 
+            + "        <subfield code=\"c\">NO</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"100\">\n" 
+            + "        <subfield code=\"a\">Nesbø, Jo</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\" \" ind2=\" \" tag=\"375\">\n" 
+            + "        <subfield code=\"a\">m</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\" \" ind2=\" \" tag=\"386\">\n" 
+            + "        <subfield code=\"a\">n.</subfield>\n" 
+            + "        <subfield code=\"m\">Nasjonalitet/regional gruppe</subfield>\n" 
+            + "        <subfield code=\"2\">bs-nasj</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Naisibo, You</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbö, Yu</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbo, Yu</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Neesbo, Jo</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbë, Ju</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nisbu, Ju</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbē, Jū</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbo, Jo</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesb'o, Ju</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Несбьо, Ю</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbo, Yo</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbo, Iu</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Nesbe, Ju</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">Несбо, Ю</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\"1\" ind2=\" \" tag=\"400\">\n" 
+            + "        <subfield code=\"a\">נסבו, יו</subfield>\n" 
+            + "        <subfield code=\"d\">1960-</subfield>\n" 
+            + "    </datafield>\n" 
+            + "    <datafield ind1=\" \" ind2=\" \" tag=\"901\">\n" 
+            + "        <subfield code=\"a\">kat3</subfield>\n" 
+            + "    </datafield>\n" 
+            + "</record>";
 
 
     @Test

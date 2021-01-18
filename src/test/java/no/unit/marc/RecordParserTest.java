@@ -3,11 +3,8 @@ package no.unit.marc;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.marc4j.MarcException;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +25,7 @@ public class RecordParserTest {
 
 
     @Test
-    public void testExtractPublicationTitle() throws IOException, ParserConfigurationException, TransformerException,
-            SAXException, XPathExpressionException {
+    public void testExtractPublicationTitle() throws IOException, TransformerException {
         InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_WITH_SUBTITLE);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         RecordParser recordParser = new RecordParser();
@@ -38,8 +34,7 @@ public class RecordParserTest {
     }
 
     @Test
-    public void testExtractPublicationSubtitle() throws IOException, ParserConfigurationException, TransformerException,
-            SAXException, XPathExpressionException {
+    public void testExtractPublicationSubtitle() throws IOException, TransformerException {
         InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_WITH_SUBTITLE);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         RecordParser recordParser = new RecordParser();
@@ -48,8 +43,7 @@ public class RecordParserTest {
     }
 
     @Test
-    public void testExtractPublicationTitle_FromZeroHits() throws IOException, ParserConfigurationException,
-            TransformerException, SAXException, XPathExpressionException {
+    public void testExtractPublicationTitle_FromZeroHits() throws IOException, TransformerException {
         InputStream stream = RecordParserTest.class.getResourceAsStream(SRU_RESPONSE_ZERO_HITS);
         String xml = IOUtils.toString(stream, StandardCharsets.UTF_8);
         RecordParser recordParser = new RecordParser();

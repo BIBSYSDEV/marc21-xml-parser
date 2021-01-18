@@ -6,9 +6,6 @@ import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -21,7 +18,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,64 +25,28 @@ import java.io.StringReader;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
-@SuppressWarnings("PMD.GodClass")
 public class RecordParser {
 
-    public static final String MARC_TAG_020 = "020";
-    public static final String MARC_TAG_022 = "022";
-    public static final String MARC_TAG_035 = "035";
-    public static final String MARC_TAG_100 = "100";
-    public static final String MARC_TAG_110 = "110";
-    public static final String MARC_TAG_111 = "111";
-    public static final String MARC_TAG_130 = "130";
-    public static final String MARC_TAG_245 = "245";
-    public static final String MARC_TAG_246 = "246";
-    public static final String MARC_TAG_260 = "260";
-    public static final String MARC_TAG_730 = "730";
-    public static final String MARC_TAG_740 = "740";
-    public static final char MARC_CODE_A = 'a';
-    public static final char MARC_CODE_B = 'b';
-    public static final char MARC_CODE_C = 'c';
-    public static final char MARC_CODE_D = 'd';
-    public static final char MARC_CODE_N = 'n';
-    public static final char MARC_CODE_0 = '0';
-    public static final String ALMA_PREFIX = "(Alma)";
-    public static final String MARC_PREFIX = "marc:";
-    public static final String LEADER = "leader";
-    public static final String CONTROLFIELD = "controlfield";
-    public static final String DATAFIELD = "datafield";
-    public static final String SUBFIELD = "subfield";
-    public static final String TAG = "tag";
-    public static final String CODE = "code";
-    public static final String IND_1 = "ind1";
-    public static final String IND_2 = "ind2";
-    public static final String LDR = "ldr";
     public static final String EMPTY_STRING = "";
-    public static final String BLANK = " ";
-    public static final char STAR = '*';
-    public static final String HASH = "#";
-    public static final char DOLLAR = '$';
-
+    public static final String CLOSING_BRACKET = ")";
 
     /**
      * Parses a SRU-response to extract the title of an marc21xml-record.
      *
      * @param xml marc21-xml record
      * @return simple json with <code>title</code>
-     * @throws IOException                  some stream reading went south
      * @throws TransformerException         some stream reading went south
-     * @throws SAXException                 some stream reading went south
-     * @throws ParserConfigurationException some stream reading went south
-     * @throws XPathExpressionException     some stream reading went south
      */
-    public Reference parse(String xml) throws IOException,
-            TransformerException, SAXException, ParserConfigurationException, XPathExpressionException {
+    public Reference parse(String xml) throws TransformerException {
         Reference reference = new Reference();
         reference.setXmlPresentation(xml);
-        reference.setLinePresentation(parseSruToLinepresentation(xml));
-        Record record = getFirstMarcRecord(xml);
+        Document doc = asDocument(xml);
+        LinePresentation linePresentation = new LinePresentation(doc);
+        reference.setLinePresentation(linePresentation.getPresentation());
+        Record record = asMarcRecord(doc);
         if (record != null) {
             extractMetadata(record, reference);
         }
@@ -100,41 +60,50 @@ public class RecordParser {
         for (DataField dataField : datafieldList) {
             String datafieldTag = dataField.getTag();
             switch (datafieldTag) {
-                case MARC_TAG_020:
-                case MARC_TAG_022:
-                    Subfield subfield = dataField.getSubfield(MARC_CODE_A);
+                case Marc21Constants.MARC_TAG_020:
+                    Subfield subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
                     if (subfield != null) {
-                        String issn = subfield.getData();
-                        if (StringUtils.isNotEmpty(issn)) {
-                            reference.setIsbn(issn);
+                        String isbn = subfield.getData();
+                        if (StringUtils.isNotEmpty(isbn)) {
+                            reference.setIsbn(isbn);
                         }
                     }
                     break;
-                case MARC_TAG_035:
-                    subfield = dataField.getSubfield(MARC_CODE_A);
+                case Marc21Constants.MARC_TAG_022:
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
+                    if (subfield != null) {
+                        String issn = subfield.getData();
+                        if (StringUtils.isNotEmpty(issn)) {
+                            reference.setIssn(issn);
+                        }
+                    }
+                    break;
+                case Marc21Constants.MARC_TAG_035:
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
                     if (subfield != null) {
                         String almaId = subfield.getData();
-                        if (StringUtils.isNotEmpty(almaId) && almaId.startsWith(ALMA_PREFIX)
+                        if (StringUtils.isNotEmpty(almaId) && StringUtils.contains(CLOSING_BRACKET, almaId)
                                 && StringUtils.isEmpty(reference.getId())) {
-                            almaId = almaId.replace(ALMA_PREFIX, EMPTY_STRING);
+                            int indexClosingBracket = almaId.indexOf(CLOSING_BRACKET);
+                            almaId = almaId.substring(indexClosingBracket);
                             reference.setId(almaId);
                         }
                     }
                     break;
-                case MARC_TAG_100:
-                case MARC_TAG_110:
-                case MARC_TAG_111:
-                    subfield = dataField.getSubfield(MARC_CODE_A);
+                case Marc21Constants.MARC_TAG_100:
+                case Marc21Constants.MARC_TAG_110:
+                case Marc21Constants.MARC_TAG_111:
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
                     String name = null;
                     if (subfield != null) {
                         name = subfield.getData();
                     }
-                    subfield = dataField.getSubfield(MARC_CODE_D);
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_D);
                     String date = null;
                     if (subfield != null) {
                         date = subfield.getData();
                     }
-                    subfield = dataField.getSubfield(MARC_CODE_0);
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_0);
                     String id = null;
                     if (subfield != null) {
                         id = subfield.getData();
@@ -144,25 +113,19 @@ public class RecordParser {
                         reference.addAuthor(author);
                     }
                     break;
-                case MARC_TAG_130:
+                case Marc21Constants.MARC_TAG_130:
                     handleTitles(reference, dataField);
                     standardTitleIn130 = StringUtils.isNotEmpty(reference.getMainTitle());
                     break;
-                case MARC_TAG_245:
-                case MARC_TAG_246:
-                    if (!standardTitleIn130) {
-                        handleTitles(reference, dataField);
-                    }
-                    break;
-                case MARC_TAG_260:
-                    subfield = dataField.getSubfield(MARC_CODE_B);
+                case Marc21Constants.MARC_TAG_260:
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_B);
                     if (subfield != null) {
                         String publisher = subfield.getData();
                         if (StringUtils.isNotEmpty(publisher)) {
                             reference.setPublisher(publisher);
                         }
                     }
-                    subfield = dataField.getSubfield(MARC_CODE_C);
+                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_C);
                     if (subfield != null) {
                         String year = subfield.getData();
                         if (StringUtils.isNotEmpty(year)) {
@@ -170,8 +133,10 @@ public class RecordParser {
                         }
                     }
                     break;
-                case MARC_TAG_730:
-                case MARC_TAG_740:
+                case Marc21Constants.MARC_TAG_245:
+                case Marc21Constants.MARC_TAG_246:
+                case Marc21Constants.MARC_TAG_730:
+                case Marc21Constants.MARC_TAG_740:
                     if (!standardTitleIn130) {
                         handleTitles(reference, dataField);
                     }
@@ -188,39 +153,27 @@ public class RecordParser {
 
     private void handleTitles(Reference reference, DataField dataField) {
         if (StringUtils.isEmpty(reference.getMainTitle())) {
-            Subfield subfield = dataField.getSubfield(MARC_CODE_A);
-            if (subfield != null) {
-                Optional<String> mainTitle = Optional.ofNullable(subfield.getData());
-                mainTitle.ifPresent(reference::setMainTitle);
-            }
-            subfield = dataField.getSubfield(MARC_CODE_B);
-            if (subfield != null) {
-                Optional<String> parallelTitle = Optional.ofNullable(subfield.getData());
-                parallelTitle.ifPresent(reference::setParalleltitle);
-            }
-            subfield = dataField.getSubfield(MARC_CODE_C);
-            if (subfield != null) {
-                Optional<String> statementOfResponsibility =
-                        Optional.ofNullable(subfield.getData());
-                statementOfResponsibility.ifPresent(reference::setStatementOfResponsibility);
-            }
-            subfield = dataField.getSubfield(MARC_CODE_N);
-            if (subfield != null) {
-                Optional<String> numberOfPartTitle = Optional.ofNullable(subfield.getData());
-                numberOfPartTitle.ifPresent(reference::setNumberOfPartTitle);
-            }
+            extractSubfieldData(dataField, reference::setMainTitle, Marc21Constants.MARC_CODE_A);
+            extractSubfieldData(dataField, reference::setParalleltitle, Marc21Constants.MARC_CODE_B);
+            extractSubfieldData(dataField, reference::setStatementOfResponsibility, Marc21Constants.MARC_CODE_C);
+            extractSubfieldData(dataField, reference::setNumberOfPartTitle, Marc21Constants.MARC_CODE_N);
         }
     }
 
-    private Record getFirstMarcRecord(String xml) throws TransformerException{
-            Document result = parseSruXml(xml);
-            ByteArrayOutputStream outputStream = removeStylesheet(result);
-            return readRecordFromCleanXml(outputStream);
+    private void extractSubfieldData(DataField dataField, Consumer<String> setParalleltitle, char subCode) {
+        Subfield subfield;
+        subfield = dataField.getSubfield(subCode);
+        if (subfield != null) {
+            Optional<String> subfieldData = Optional.ofNullable(subfield.getData());
+            subfieldData.ifPresent(setParalleltitle);
+        }
     }
 
-    private Record readRecordFromCleanXml(ByteArrayOutputStream outputStream) {
+    private Record asMarcRecord(Document doc) throws TransformerException {
+        ByteArrayOutputStream outputStream = removeStylesheet(doc);
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray())).next();
     }
+
 
     private ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
         Source source = new DOMSource(result);
@@ -230,64 +183,12 @@ public class RecordParser {
         return outputStream;
     }
 
-    private String parseSruToLinepresentation(String sruxml) {
-        StringBuilder lineFormat = new StringBuilder();
-        Document doc = parseSruXml(sruxml);
-        if (doc != null) {
-            NodeList leaderNodeList = doc.getElementsByTagName(LEADER);
-            for (int i = 0; i < leaderNodeList.getLength(); i++) {
-                Node item = leaderNodeList.item(i);
-                String ldr = item.getFirstChild().getNodeValue();
-                lineFormat.append(STAR).append(LDR).append(BLANK).append(ldr).append(System.lineSeparator());
-            }
-            NodeList controlfieldNodeList = doc.getElementsByTagName(CONTROLFIELD);
-            for (int i = 0; i < controlfieldNodeList.getLength(); i++) {
-                Node item = controlfieldNodeList.item(i);
-                String controlfieldValue = item.getFirstChild().getNodeValue();
-                String controlfieldTag = ((Element) item).getAttribute(TAG);
-                lineFormat.append(STAR).append(controlfieldTag).append(BLANK).append(controlfieldValue)
-                        .append(System.lineSeparator());
-            }
-            NodeList datafieldNodeList = doc.getElementsByTagName(DATAFIELD);
-            for (int i = 0; i < datafieldNodeList.getLength(); i++) {
-                Node item = datafieldNodeList.item(i);
-                Element element = (Element) item;
-                String datafieldInd1 = element.getAttribute(IND_1);
-                String datafieldTag = element.getAttribute(TAG);
-                lineFormat.append(STAR).append(datafieldTag);
-                if (BLANK.equals(datafieldInd1)) {
-                    datafieldInd1 = HASH;
-                }
-                if (datafieldInd1 != null) {
-                    lineFormat.append(EMPTY_STRING).append(datafieldInd1);
-                }
-                String datafieldInd2 = element.getAttribute(IND_2);
-                if (BLANK.equals(datafieldInd2)) {
-                    datafieldInd2 = HASH;
-                }
-                if (datafieldInd2 != null) {
-                    lineFormat.append(EMPTY_STRING).append(datafieldInd2);
-                }
-                NodeList subfieldNodes = element.getElementsByTagName(SUBFIELD);
-                for (int j = 0; j < subfieldNodes.getLength(); j++) {
-                    Element subfieldNode = (Element) subfieldNodes.item(j);
-                    String codeTag = subfieldNode.getAttribute(CODE);
-                    String subfieldText = subfieldNode.getTextContent();
-                    lineFormat.append(BLANK).append(DOLLAR).append(codeTag).append(subfieldText);
-                }
-                lineFormat.append(System.lineSeparator());
-            }
-        }
-        return lineFormat.toString().trim();
-    }
-
-
-    private Document parseSruXml(String sruxml) {
+    private Document asDocument(String sruxml) {
         Document document = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            String removedMarcInSruXml = sruxml.replace(MARC_PREFIX, EMPTY_STRING);
+            String removedMarcInSruXml = sruxml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
             InputSource is = new InputSource(new StringReader(removedMarcInSruXml));
             document = builder.parse(is);
         } catch (ParserConfigurationException | SAXException | IOException e) {

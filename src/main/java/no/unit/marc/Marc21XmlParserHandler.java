@@ -2,15 +2,15 @@ package no.unit.marc;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
 
 import javax.ws.rs.core.Response;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,7 +30,6 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
      * @return a GatewayResponse
      */
     @Override
-    @SuppressWarnings("unchecked")
     public GatewayResponse handleRequest(final Map<String, Object> input, Context context) {
         System.out.println(input);
         GatewayResponse gatewayResponse = new GatewayResponse();
@@ -52,8 +51,7 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
             Reference reference = recordParser.parse(xml);
             gatewayResponse.setBody(gson.toJson(reference, Reference.class));
             gatewayResponse.setStatusCode(Response.Status.OK.getStatusCode());
-        } catch (IOException | TransformerException | SAXException | ParserConfigurationException
-                | XPathExpressionException e) {
+        } catch (TransformerException e) {
             DebugUtils.dumpException(e);
             gatewayResponse.setErrorBody(INTERNAL_SERVER_ERROR_MESSAGE);
             gatewayResponse.setStatusCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
