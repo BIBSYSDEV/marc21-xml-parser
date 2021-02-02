@@ -85,19 +85,29 @@ public class Reference {
     }
 
     public void addIsbn(String nextIsbn) {
-        if(isbn == null){
+        if (isbn == null) {
             isbn = new ArrayList<>();
         }
         isbn.add(nextIsbn);
     }
 
-    public List<String> getIssn() { return issn; }
+    public void setIsbn(List<String> isbn) {
+        this.isbn = isbn;
+    }
+
+    public List<String> getIssn() {
+        return issn;
+    }
 
     public void addIssn(String nextIssn) {
-        if(issn == null){
+        if (issn == null) {
             issn = new ArrayList<>();
         }
         issn.add(nextIssn);
+    }
+
+    public void setIssn(List<String> issn) {
+        this.issn = issn;
     }
 
     public String getXmlPresentation() {
@@ -134,6 +144,7 @@ public class Reference {
 
     /**
      * Add an author to the list of authors.
+     *
      * @param author the author to add
      */
     public void addAuthor(AuthorReference author) {
