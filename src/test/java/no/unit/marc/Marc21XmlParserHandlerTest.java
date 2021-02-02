@@ -18,6 +18,7 @@ public class Marc21XmlParserHandlerTest {
 
     private static final int EXPECTED_NUMBER_OF_ISBNS = 2;
     private static final int EXPECTED_NUMBER_OF_ISSNS = 4;
+    private static final String EXPECTED_REFERENCE_ID = "991004248644702201";
 
     public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
@@ -283,7 +284,24 @@ public class Marc21XmlParserHandlerTest {
         assertEquals(EXPECTED_NUMBER_OF_ISSNS, issn.getAsJsonArray().size());
         System.out.println(isbn.toString());
         System.out.println(issn.toString());
+    }
 
+    @Test
+    public void testFetchReferenceId() {
+        String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
+        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
+        Map<String, Object> event = new HashMap<>();
+        event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
+
+        Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
+
+        final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
+        assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
+        JsonObject jsonObject = JsonParser.parseString(gatewayResponse.getBody()).getAsJsonObject();
+        JsonElement id = jsonObject.get("id");
+        assertEquals(EXPECTED_REFERENCE_ID, id.getAsString());
+        System.out.println(id.toString());
     }
 
 }
