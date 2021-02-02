@@ -70,7 +70,7 @@ public class Marc21XmlParserHandlerTest {
     private static final String EXPECTED_AUTHOR_DATE = "1960-";
 
     private static final String MOCK_AUTHOR_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" 
-            + "<record xmlns:marc=\"info:lc/xmlns/marcxchange-v1\" format=\"MARC21\" id=\"90356569\" type=\"Authority\">\n" 
+            + "<record xmlns:marc=\"info:lc/xmlns/marcxchange-v1\" format=\"MARC21\" type=\"Authority\">\n"
             + "    <leader>99999nz  a2299999n  4500</leader>\n" 
             + "    <controlfield tag=\"001\">90356569</controlfield>\n" 
             + "    <controlfield tag=\"003\">NO-TrBIB</controlfield>\n" 
