@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +16,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Marc21XmlParserHandlerTest {
 
+    private static final int EXPECTED_NUMBER_OF_ISBNS = 2;
+    private static final int EXPECTED_NUMBER_OF_ISSNS = 4;
+
     public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
             + "    <controlfield tag=\"001\">991004248644702201</controlfield>\n"
             + "    <controlfield tag=\"005\">20190130103301.0</controlfield>\n"
             + "    <controlfield tag=\"007\">ta</controlfield>\n"
             + "    <controlfield tag=\"008\">100222s2009 xx#||||f||||||000|u|eng|d</controlfield>\n"
+            + "    <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">1234567892</subfield>\n"
+            + "    </datafield>\n"
+            + "    <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">1234567891</subfield>\n"
+            + "    </datafield>\n"
+            + "    <datafield tag=\"022\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">4234567890</subfield>\n"
+            + "    </datafield>\n"
+            + "    <datafield tag=\"022\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">3234567890</subfield>\n"
+            + "    </datafield>\n"
+            + "    <datafield tag=\"022\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">2234567890</subfield>\n"
+            + "    </datafield>\n"
+            + "    <datafield tag=\"022\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">1234567890</subfield>\n"
+            + "    </datafield>\n"
             + "    <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n"
             + "        <subfield code=\"a\">100424864-47bibsys_network</subfield>\n"
             + "    </datafield>\n"
@@ -239,6 +261,28 @@ public class Marc21XmlParserHandlerTest {
         assertEquals(EXPECTED_AUTHOR_NAME, name.getAsString());
         JsonElement date = jsonElement.getAsJsonObject().get("date");
         assertEquals(EXPECTED_AUTHOR_DATE, date.getAsString());
+
+    }
+
+    @Test
+    public void testFetchIsbnIssnLists() {
+        String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
+        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
+        Map<String, Object> event = new HashMap<>();
+        event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
+
+        Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
+
+        final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
+        assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
+        JsonObject jsonObject = JsonParser.parseString(gatewayResponse.getBody()).getAsJsonObject();
+        JsonElement isbn = jsonObject.get("isbn");
+        JsonElement issn = jsonObject.get("issn");
+        assertEquals(EXPECTED_NUMBER_OF_ISBNS, isbn.getAsJsonArray().size());
+        assertEquals(EXPECTED_NUMBER_OF_ISSNS, issn.getAsJsonArray().size());
+        System.out.println(isbn.toString());
+        System.out.println(issn.toString());
 
     }
 
