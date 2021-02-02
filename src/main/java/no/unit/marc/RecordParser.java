@@ -65,7 +65,7 @@ public class RecordParser {
                     if (subfield != null) {
                         String isbn = subfield.getData();
                         if (StringUtils.isNotEmpty(isbn)) {
-                            reference.setIsbn(isbn);
+                            reference.addIsbn(isbn);
                         }
                     }
                     break;
@@ -74,7 +74,7 @@ public class RecordParser {
                     if (subfield != null) {
                         String issn = subfield.getData();
                         if (StringUtils.isNotEmpty(issn)) {
-                            reference.setIssn(issn);
+                            reference.addIssn(issn);
                         }
                     }
                     break;

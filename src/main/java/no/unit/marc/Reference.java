@@ -22,9 +22,9 @@ public class Reference {
     @SerializedName("year")
     private String year;
     @SerializedName("isbn")
-    private String isbn;
+    private List<String> isbn = new ArrayList<>();
     @SerializedName("issn")
-    private String issn;
+    private List<String> issn = new ArrayList<>();
     @SerializedName("publisher")
     private String publisher;
     @SerializedName("xmlPresentation")
@@ -80,20 +80,20 @@ public class Reference {
         this.year = year;
     }
 
-    public String getIsbn() {
+    public List<String> getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void addIsbn(String nextIsbn) {
+        this.isbn.add(nextIsbn);
     }
 
-    public String getIssn() {
+    public List<String> getIssn() {
         return issn;
     }
 
-    public void setIssn(String issn) {
-        this.issn = issn;
+    public void addIssn(String nextIssn) {
+        this.issn.add(nextIssn);
     }
 
     public String getXmlPresentation() {
