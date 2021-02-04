@@ -2,6 +2,7 @@ package no.unit.marc;
 
 public class Marc21Constants {
 
+    public static final String MARC_TAG_001 = "001";
     public static final String MARC_TAG_020 = "020";
     public static final String MARC_TAG_022 = "022";
     public static final String MARC_TAG_035 = "035";

@@ -84,6 +84,11 @@ public class Reference {
         return isbn;
     }
 
+    /**
+     * Add an isbn to the list of isbns.
+     *
+     * @param nextIsbn the isbn to add
+     */
     public void addIsbn(String nextIsbn) {
         if (isbn == null) {
             isbn = new ArrayList<>();
@@ -99,6 +104,11 @@ public class Reference {
         return issn;
     }
 
+    /**
+     * Add an issn to the list of issns.
+     *
+     * @param nextIssn the issn to add
+     */
     public void addIssn(String nextIssn) {
         if (issn == null) {
             issn = new ArrayList<>();
