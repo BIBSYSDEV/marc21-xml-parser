@@ -1,6 +1,6 @@
 package no.unit.marc;
 
-import org.apache.commons.lang3.StringUtils;
+import no.unit.marc.utils.StringUtils;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-
 
 public class RecordParser {
 
@@ -82,7 +81,7 @@ public class RecordParser {
                     subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
                     if (subfield != null) {
                         String almaId = subfield.getData();
-                        if (StringUtils.isNotEmpty(almaId) && StringUtils.contains(CLOSING_BRACKET, almaId)
+                        if (StringUtils.isNotEmpty(almaId) && almaId.contains(CLOSING_BRACKET)
                                 && StringUtils.isEmpty(reference.getId())) {
                             int indexClosingBracket = almaId.indexOf(CLOSING_BRACKET);
                             almaId = almaId.substring(indexClosingBracket);

@@ -3,11 +3,9 @@ package no.unit.marc;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -227,8 +225,8 @@ public class Marc21XmlParserHandlerTest {
 
     @Test
     public void testFetchRecordTitle() {
-        String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
-        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String simpleQuoted = MOCK_XML.replace("\"", "'");
+        String noLineFeeds = simpleQuoted.replace("\n", "");
         String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
@@ -242,8 +240,8 @@ public class Marc21XmlParserHandlerTest {
 
     @Test
     public void testFetchAuthor() {
-        String simpleQuoted = StringUtils.replace(MOCK_AUTHOR_XML, "\"", "'");
-        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String simpleQuoted = MOCK_AUTHOR_XML.replace("\"", "'");
+        String noLineFeeds = simpleQuoted.replace("\n", "");
         String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
@@ -261,13 +259,12 @@ public class Marc21XmlParserHandlerTest {
         assertEquals(EXPECTED_AUTHOR_NAME, name.getAsString());
         JsonElement date = jsonElement.getAsJsonObject().get("date");
         assertEquals(EXPECTED_AUTHOR_DATE, date.getAsString());
-
     }
 
     @Test
     public void testFetchIsbnIssnLists() {
-        String simpleQuoted = StringUtils.replace(MOCK_XML, "\"", "'");
-        String noLineFeeds = StringUtils.replace(simpleQuoted, "\n", "");
+        String simpleQuoted = MOCK_XML.replace("\"", "'");
+        String noLineFeeds = simpleQuoted.replace("\n", "");
         String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
         Map<String, Object> event = new HashMap<>();
         event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
@@ -283,7 +280,6 @@ public class Marc21XmlParserHandlerTest {
         assertEquals(EXPECTED_NUMBER_OF_ISSNS, issn.getAsJsonArray().size());
         System.out.println(isbn.toString());
         System.out.println(issn.toString());
-
     }
 
 }

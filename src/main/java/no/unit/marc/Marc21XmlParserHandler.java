@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.lang3.StringUtils;
+import no.unit.marc.utils.StringUtils;
 
 import javax.ws.rs.core.Response;
 import javax.xml.transform.TransformerException;
@@ -31,7 +31,6 @@ public class Marc21XmlParserHandler implements RequestHandler<Map<String, Object
      */
     @Override
     public GatewayResponse handleRequest(final Map<String, Object> input, Context context) {
-        System.out.println(input);
         GatewayResponse gatewayResponse = new GatewayResponse();
         try {
             this.checkParameters(input);
