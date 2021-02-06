@@ -116,7 +116,7 @@ Resources:
           ALLOWED_ORIGIN:  '*'
       Handler: no.unit.marc.Marc21XmlParserHandler::handleRequest
       Runtime: java11
-      MemorySize: 512
+      MemorySize: 10240
       Events:
         Marc21XmlParserRecordEvent:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
