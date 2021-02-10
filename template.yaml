@@ -126,7 +126,7 @@ Resources:
           ALLOWED_ORIGIN:  '*'
       Handler: no.unit.marc.Marc21XmlParserHandler::handleRequest
       Runtime: java11
-      MemorySize: 1024
+      MemorySize: 2048
       AutoPublishAlias: live
       DeploymentPreference:
         Type: AllAtOnce # Or Canary10Percent5Minutes, Linear10PercentEvery1Minute, ...
