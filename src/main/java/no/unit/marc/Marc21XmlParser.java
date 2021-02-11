@@ -31,13 +31,9 @@ import java.util.function.Consumer;
 public class Marc21XmlParser {
 
     private static final String EMPTY_STRING = "";
-    private static final String CLOSING_BRACKET = ")";
     private static final String DOES_NOT_START_WITH_RECORD_ERROR = "The xml string does not start with the <record> tag, please make sure that is does end and start with <record> </record>";
-    private static final String DOES_NOT_END_WITH_RECORD_ERROR = "The xml string does not end with the </record> tag, please make sure that is does end and start with <record> </record>";
-    private static final String TRANSFORMER_EXCEPTION_ERROR = "Caught an transformer-exception while trying to create a Record object. The error reads as follows: ";
-    private static final String PARSER_COFIGURATION_EXCEPTION_ERROR = "Caught an Parser-configuration-exception while trying to create a Document object. The error reads as follows: ";
-    private static final String SAX_EXCEPTION_ERROR = "Caught an SAX-exception while trying to create a Document object. The error reads as follows: ";
-    private static final String IO_EXCEPTION_ERROR = "Caught an IO-exception while trying to create a Document object. The error reads as follows: ";
+    private static final String EXCEPTION_MESSAGE = "Caught an error while converting to reference object, make sure that the xml string used is ";
+
     /**
      * Parses a SRU-response to extract the title of an marc21xml-record.
      *
@@ -58,16 +54,8 @@ public class Marc21XmlParser {
             if (record != null) {
                 extractMetadata(record, reference);
             }
-        }catch(TransformerException e){
-            throw new Marc21XmlParserException(TRANSFORMER_EXCEPTION_ERROR + e.getMessage());
-        }catch(ParserConfigurationException e){
-            throw new Marc21XmlParserException(PARSER_COFIGURATION_EXCEPTION_ERROR + e.getMessage());
-        }
-        catch(SAXException e){
-            throw new Marc21XmlParserException(SAX_EXCEPTION_ERROR + e.getMessage());
-        }
-        catch(IOException e){
-            throw new Marc21XmlParserException(IO_EXCEPTION_ERROR + e.getMessage());
+        }catch(TransformerException | ParserConfigurationException | SAXException | IOException e) {
+            throw new Marc21XmlParserException(EXCEPTION_MESSAGE, e);
         }
         return reference;
     }
