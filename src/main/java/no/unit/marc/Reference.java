@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-class Reference {
+public class Reference {
 
     @SerializedName("id")
     private String id;

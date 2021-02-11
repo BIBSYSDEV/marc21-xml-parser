@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Marc21XmlParserTest {
 
-    public static final String MOCK_XML = "<recordData>"
-            + "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
+    public static final String MOCK_XML ="<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
             + "    <controlfield tag=\"001\">991004248644702201</controlfield>\n"
             + "    <controlfield tag=\"005\">20190130103301.0</controlfield>\n"
@@ -73,8 +72,7 @@ class Marc21XmlParserTest {
             + "    <datafield tag=\"915\" ind1=\" \" ind2=\" \">\n"
             + "        <subfield code=\"a\">1</subfield>\n"
             + "    </datafield>\n"
-            + "</record>"
-            + "</recordData>";
+            + "</record>";
 
     @Test
     public void testXMLNotStartingWithRecordTag(){
