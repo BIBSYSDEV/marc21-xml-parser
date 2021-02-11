@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Marc21XmlParserHandlerTest {
 
+    private static final String EXPECTED_RECORD_ID = "991004248644702201";
     private static final int EXPECTED_NUMBER_OF_ISBNS = 2;
     private static final int EXPECTED_NUMBER_OF_ISSNS = 4;
 
@@ -282,4 +283,20 @@ public class Marc21XmlParserHandlerTest {
         System.out.println(issn.toString());
     }
 
+    @Test
+    public void testFetchRecordID() {
+        String simpleQuoted = MOCK_XML.replace("\"", "'");
+        String noLineFeeds = simpleQuoted.replace("\n", "");
+        String mockBody = "{\"" + Marc21XmlParserHandler.XMLRECORD_KEY + "\": \"" + noLineFeeds + "\"}";
+        Map<String, Object> event = new HashMap<>();
+        event.put(Marc21XmlParserHandler.BODY_KEY, mockBody);
+
+        Marc21XmlParserHandler mockAlmaRecordHandler = new Marc21XmlParserHandler();
+
+        final GatewayResponse gatewayResponse = mockAlmaRecordHandler.handleRequest(event, null);
+        assertEquals(Response.Status.OK.getStatusCode(), gatewayResponse.getStatusCode());
+        JsonObject jsonObject = JsonParser.parseString(gatewayResponse.getBody()).getAsJsonObject();
+        JsonElement id = jsonObject.get("id");
+        assertEquals(EXPECTED_RECORD_ID, id.getAsString());
+    }
 }

@@ -2,6 +2,7 @@ package no.unit.marc;
 
 import no.unit.marc.utils.StringUtils;
 import org.marc4j.MarcXmlReader;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -54,6 +55,13 @@ public class RecordParser {
 
     @SuppressWarnings("PMD.NcssCount")
     private void extractMetadata(Record record, Reference reference) {
+        List<ControlField> controlFieldList = record.getControlFields();
+        for (ControlField controlField : controlFieldList) {
+            String controlFieldTag = controlField.getTag();
+            if (controlFieldTag.equals(Marc21Constants.MARC_TAG_001)) {
+                reference.setId(controlField.getData());
+            }
+        }
         List<DataField> datafieldList = record.getDataFields();
         boolean standardTitleIn130 = false;
         for (DataField dataField : datafieldList) {
@@ -74,18 +82,6 @@ public class RecordParser {
                         String issn = subfield.getData();
                         if (StringUtils.isNotEmpty(issn)) {
                             reference.addIssn(issn);
-                        }
-                    }
-                    break;
-                case Marc21Constants.MARC_TAG_035:
-                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
-                    if (subfield != null) {
-                        String almaId = subfield.getData();
-                        if (StringUtils.isNotEmpty(almaId) && almaId.contains(CLOSING_BRACKET)
-                                && StringUtils.isEmpty(reference.getId())) {
-                            int indexClosingBracket = almaId.indexOf(CLOSING_BRACKET);
-                            almaId = almaId.substring(indexClosingBracket);
-                            reference.setId(almaId);
                         }
                     }
                     break;
