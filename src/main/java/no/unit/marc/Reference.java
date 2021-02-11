@@ -22,9 +22,9 @@ public class Reference {
     @SerializedName("year")
     private String year;
     @SerializedName("isbn")
-    private String isbn;
+    private List<String> isbn;
     @SerializedName("issn")
-    private String issn;
+    private List<String> issn;
     @SerializedName("publisher")
     private String publisher;
     @SerializedName("xmlPresentation")
@@ -80,19 +80,43 @@ public class Reference {
         this.year = year;
     }
 
-    public String getIsbn() {
+    public List<String> getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    /**
+     * Add an isbn to the list of isbns.
+     *
+     * @param nextIsbn the isbn to add
+     */
+    public void addIsbn(String nextIsbn) {
+        if (isbn == null) {
+            isbn = new ArrayList<>();
+        }
+        isbn.add(nextIsbn);
+    }
+
+    public void setIsbn(List<String> isbn) {
         this.isbn = isbn;
     }
 
-    public String getIssn() {
+    public List<String> getIssn() {
         return issn;
     }
 
-    public void setIssn(String issn) {
+    /**
+     * Add an issn to the list of issns.
+     *
+     * @param nextIssn the issn to add
+     */
+    public void addIssn(String nextIssn) {
+        if (issn == null) {
+            issn = new ArrayList<>();
+        }
+        issn.add(nextIssn);
+    }
+
+    public void setIssn(List<String> issn) {
         this.issn = issn;
     }
 
@@ -130,6 +154,7 @@ public class Reference {
 
     /**
      * Add an author to the list of authors.
+     *
      * @param author the author to add
      */
     public void addAuthor(AuthorReference author) {

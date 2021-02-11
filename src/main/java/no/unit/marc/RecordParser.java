@@ -1,7 +1,8 @@
 package no.unit.marc;
 
-import org.apache.commons.lang3.StringUtils;
+import no.unit.marc.utils.StringUtils;
 import org.marc4j.MarcXmlReader;
+import org.marc4j.marc.ControlField;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
-
 
 public class RecordParser {
 
@@ -55,6 +55,13 @@ public class RecordParser {
 
     @SuppressWarnings("PMD.NcssCount")
     private void extractMetadata(Record record, Reference reference) {
+        List<ControlField> controlFieldList = record.getControlFields();
+        for (ControlField controlField : controlFieldList) {
+            String controlFieldTag = controlField.getTag();
+            if (controlFieldTag.equals(Marc21Constants.MARC_TAG_001)) {
+                reference.setId(controlField.getData());
+            }
+        }
         List<DataField> datafieldList = record.getDataFields();
         boolean standardTitleIn130 = false;
         for (DataField dataField : datafieldList) {
@@ -65,7 +72,7 @@ public class RecordParser {
                     if (subfield != null) {
                         String isbn = subfield.getData();
                         if (StringUtils.isNotEmpty(isbn)) {
-                            reference.setIsbn(isbn);
+                            reference.addIsbn(isbn);
                         }
                     }
                     break;
@@ -74,19 +81,7 @@ public class RecordParser {
                     if (subfield != null) {
                         String issn = subfield.getData();
                         if (StringUtils.isNotEmpty(issn)) {
-                            reference.setIssn(issn);
-                        }
-                    }
-                    break;
-                case Marc21Constants.MARC_TAG_035:
-                    subfield = dataField.getSubfield(Marc21Constants.MARC_CODE_A);
-                    if (subfield != null) {
-                        String almaId = subfield.getData();
-                        if (StringUtils.isNotEmpty(almaId) && StringUtils.contains(CLOSING_BRACKET, almaId)
-                                && StringUtils.isEmpty(reference.getId())) {
-                            int indexClosingBracket = almaId.indexOf(CLOSING_BRACKET);
-                            almaId = almaId.substring(indexClosingBracket);
-                            reference.setId(almaId);
+                            reference.addIssn(issn);
                         }
                     }
                     break;
