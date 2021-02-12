@@ -31,8 +31,11 @@ import java.util.function.Consumer;
 public class Marc21XmlParser {
 
     private static final String EMPTY_STRING = "";
-    private static final String DOES_NOT_START_WITH_RECORD_ERROR = "The xml string does not start with the <record> tag, please make sure that is does end and start with <record> </record>";
-    private static final String EXCEPTION_MESSAGE = "Caught an error while converting to reference object, make sure that the xml string used is ";
+    private static final String RECORD = "record";
+    private static final String DOES_NOT_START_WITH_RECORD_ERROR = "The xml string does "
+            + "not start with the <record> tag, please make sure that is does end and start with <record> </record>";
+    private static final String EXCEPTION_MESSAGE = "Caught an error while converting to "
+            + "reference object, make sure that the xml string used is ";
 
     /**
      * Parses a SRU-response to extract the title of an marc21xml-record.
@@ -44,7 +47,7 @@ public class Marc21XmlParser {
     public Reference parse(String xml) throws Marc21XmlParserException {
         Reference reference = new Reference();
         reference.setXmlPresentation(xml);
-        try{
+        try {
             Document doc = asDocument(xml);
             checkFirstTag(doc);
             LinePresentation linePresentation = new LinePresentation(doc);
@@ -54,14 +57,16 @@ public class Marc21XmlParser {
             if (record != null) {
                 extractMetadata(record, reference);
             }
-        }catch(TransformerException | ParserConfigurationException | SAXException | IOException e) {
+        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
             throw new Marc21XmlParserException(EXCEPTION_MESSAGE, e);
         }
         return reference;
     }
 
-    private void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException{
-        if(!xmlDoc.getFirstChild().getNodeName().equals("record")) throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
+    private void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
+        if (!xmlDoc.getFirstChild().getNodeName().equals(RECORD)) {
+            throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
+        }
     }
 
     @SuppressWarnings("PMD.NcssCount")
@@ -190,7 +195,7 @@ public class Marc21XmlParser {
     }
 
     private Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException  {
-        Document document = null;
+        Document document;
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
