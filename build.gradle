@@ -45,9 +45,6 @@ test {
     finalizedBy jacocoTestReport
 }
 
-// We don't want a jar, just a fatJar
-jar.enabled = false
-project.tasks.build.dependsOn project.tasks.shadowJar
 
 pmd {
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/ruleset.xml')
