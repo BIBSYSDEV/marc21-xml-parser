@@ -64,7 +64,7 @@ public class Marc21XmlParser {
     }
 
     public String versionCheck(){
-        return "Third verison";
+        return "Fourth verison";
     }
 
     private void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {

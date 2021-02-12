@@ -8,8 +8,6 @@ plugins {
 
 apply plugin: 'maven'
 
-group = 'com.github.Eirik-Eide-Saur'
-
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
 
