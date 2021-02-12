@@ -63,10 +63,6 @@ public class Marc21XmlParser {
         return reference;
     }
 
-    public String versionCheck(){
-        return "Fourth verison";
-    }
-
     private void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
         if (!xmlDoc.getFirstChild().getNodeName().equals(RECORD)) {
             throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
