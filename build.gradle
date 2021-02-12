@@ -6,6 +6,10 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
+apply plugin: 'maven'
+
+group = 'com.github.Eirik-Eide-Saur'
+
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
 
