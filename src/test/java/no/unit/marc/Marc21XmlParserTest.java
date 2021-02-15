@@ -1,7 +1,6 @@
 package no.unit.marc;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -100,7 +99,6 @@ class Marc21XmlParserTest {
 
     @Test
     public void testXmlContainingErrors() {
-        Marc21XmlParser parser = new Marc21XmlParser();
         assertThrows(Marc21XmlParserException.class, () -> {
             Marc21XmlParser.parse(MOCK_FAULTY_XML);
         });
@@ -108,15 +106,9 @@ class Marc21XmlParserTest {
     }
 
     @Test
-    public void testParsing() {
-        Marc21XmlParser parser = new Marc21XmlParser();
-        try{
-            Reference reference = parser.parse(MOCK_XML);
-            assertEquals(MOCK_ID, reference.getId());
-            assertEquals(MOCK_TITLE, reference.getMainTitle());
-        }
-        catch(Marc21XmlParserException e){
-            System.out.println(e);
-        }
+    public void testParsing() throws Marc21XmlParserException{
+        Reference reference = Marc21XmlParser.parse(MOCK_XML);
+        assertEquals(MOCK_ID, reference.getId());
+        assertEquals(MOCK_TITLE, reference.getMainTitle());
     }
 }

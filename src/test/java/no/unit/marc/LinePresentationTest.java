@@ -162,14 +162,8 @@ class LinePresentationTest {
     };
 
     @Test
-    public void testConvertingToLinePresentation(){
-        try{
-            LinePresentation lPress = new LinePresentation(asDocumentHelperMethod(MOCK_XML));
-            assertEquals(MOCK_LINEPRESENTATION, lPress.getPresentation());
-        } catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
-
+    public void testConvertingToLinePresentation() throws ParserConfigurationException, SAXException, IOException{
+        LinePresentation lPress = new LinePresentation(asDocumentHelperMethod(MOCK_XML));
+        assertEquals(MOCK_LINEPRESENTATION, lPress.getPresentation());
     }
 }
