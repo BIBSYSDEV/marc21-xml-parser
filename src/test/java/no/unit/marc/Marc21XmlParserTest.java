@@ -3,11 +3,13 @@ package no.unit.marc;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Marc21XmlParserTest {
 
     public static final String MOCK_ID = "991004248644702201";
+    public static final String MOCK_TITLE = "Emotions and legal judgements :";
 
     public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
@@ -112,11 +114,12 @@ class Marc21XmlParserTest {
     }
 
     @Test
-    public void testGetMethodsFromReference() {
+    public void testParsing() {
         Marc21XmlParser parser = new Marc21XmlParser();
         try{
             Reference reference = parser.parse(MOCK_XML);
             assertEquals(MOCK_ID, reference.getId());
+            assertEquals(MOCK_TITLE, reference.getMainTitle());
         }
         catch(Marc21XmlParserException e){
             System.out.println(e);
