@@ -18,6 +18,8 @@ class LinePresentationTest {
 
     public static final String EMPTY_STRING = "";
 
+    public static final String separator = System.getProperty("line.separator");
+
     public static final String MOCK_XML = "<?xml version='1.0' encoding='UTF-8'?>\n"
             + "<record xmlns='http://www.loc.gov/MARC21/slim'>\n"
             + "          <leader>01044cam a2200301 c 4500</leader>\n"
@@ -94,7 +96,7 @@ class LinePresentationTest {
             + "          </datafield>\n"
             + "          <datafield ind1='4' ind2='2' tag='856'>\n"
             + "            <subfield code='3'>Beskrivelse fra forlaget (kort)</subfield>\n"
-            + "            <subfield code='u'>http://content.bibsys.no/content/?type=descr_publ_brief&amp;isbn=8210053418</subfield>\n"
+            + "            <subfield code='u'>http://content.bibsys.no/content/?type=descr_publ_brief&amp;isbn=82100534180</subfield>\n"
             + "          </datafield>\n"
             + "          <datafield ind1='0' ind2='1' tag='852'>\n"
             + "            <subfield code='a'>47BIBSYS_NB</subfield>\n"
@@ -111,30 +113,30 @@ class LinePresentationTest {
             + "          </datafield>\n"
             + "        </record>";
 
-    public static final String MOCK_LINEPRESENTATION = "*ldr 01044cam a2200301 c 4500\r\n"
-            + "*001 991325803064702201\r\n"
-            + "*005 20160622160726.0\r\n"
-            + "*007 ta\r\n"
-            + "*008 141124s2013    no#||||j||||||000|0|nob|^\r\n"
-            + "*015## $a1337755 $2nbf\r\n"
-            + "*020## $a9788210053412 $qib. $cNkr 249.00\r\n"
-            + "*035## $a132580306-47bibsys_network\r\n"
-            + "*035## $a(NO-TrBIB)132580306\r\n"
-            + "*035## $a(NO-OsBA)0370957\r\n"
-            + "*040## $aNO-OsNB $bnob $ekatreg\r\n"
-            + "*0411# $heng\r\n"
-            + "*042## $anorbibl\r\n"
-            + "*044## $cno\r\n"
-            + "*08274 $a791.4372 $qNO-OsNB $25/nor\r\n"
-            + "*1001# $aFisher, Jude $0(NO-TrBIB)1093967\r\n"
-            + "*24510 $aHobbiten : $bSmaugs ødemark i bilder $cJude Fisher ; oversatt fra engelsk av Camilla Eikeland-Sandnes\r\n"
-            + "*2461# $aThe Hobbit $bthe desolation of Smaug visual companion $iOriginaltittel\r\n"
-            + "*260## $aOslo $bTiden $c2013\r\n"
-            + "*300## $a75 s. $bill. $c28 cm\r\n"
-            + "*7001# $aEikeland-Sundnes, Camilla $d1978- $4trl $0(NO-TrBIB)10061339\r\n"
-            + "*85642 $3Beskrivelse fra forlaget (kort) $uhttp://content.bibsys.no/content/?type=descr_publ_brief&isbn=8210053418\r\n"
-            + "*85201 $a47BIBSYS_NB $6991325803064702202 $9D $9P\r\n"
-            + "*901## $a90\r\n"
+    public static final String MOCK_LINEPRESENTATION = "*ldr 01044cam a2200301 c 4500"+separator
+            + "*001 991325803064702201"+separator
+            + "*005 20160622160726.0"+separator
+            + "*007 ta"+separator
+            + "*008 141124s2013    no#||||j||||||000|0|nob|^"+separator
+            + "*015## $a1337755 $2nbf"+separator
+            + "*020## $a9788210053412 $qib. $cNkr 249.00"+separator
+            + "*035## $a132580306-47bibsys_network"+separator
+            + "*035## $a(NO-TrBIB)132580306"+separator
+            + "*035## $a(NO-OsBA)0370957"+separator
+            + "*040## $aNO-OsNB $bnob $ekatreg"+separator
+            + "*0411# $heng"+separator
+            + "*042## $anorbibl"+separator
+            + "*044## $cno"+separator
+            + "*08274 $a791.4372 $qNO-OsNB $25/nor"+separator
+            + "*1001# $aFisher, Jude $0(NO-TrBIB)1093967"+separator
+            + "*24510 $aHobbiten : $bSmaugs ødemark i bilder $cJude Fisher ; oversatt fra engelsk av Camilla Eikeland-Sandnes"+separator
+            + "*2461# $aThe Hobbit $bthe desolation of Smaug visual companion $iOriginaltittel"+separator
+            + "*260## $aOslo $bTiden $c2013"+separator
+            + "*300## $a75 s. $bill. $c28 cm"+separator
+            + "*7001# $aEikeland-Sundnes, Camilla $d1978- $4trl $0(NO-TrBIB)10061339"+separator
+            + "*85642 $3Beskrivelse fra forlaget (kort) $uhttp://content.bibsys.no/content/?type=descr_publ_brief&isbn=82100534180"+separator
+            + "*85201 $a47BIBSYS_NB $6991325803064702202 $9D $9P"+separator
+            + "*901## $a90"+separator
             + "*913## $aNorbok $bNB";
 
 

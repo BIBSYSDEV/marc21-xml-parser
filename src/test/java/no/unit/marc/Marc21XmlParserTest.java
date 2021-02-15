@@ -92,25 +92,19 @@ class Marc21XmlParserTest {
 
     @Test
     public void testXmlNotStartingWithRecordTag() {
-        Marc21XmlParser parser = new Marc21XmlParser();
-        String faulty_xml = "<RecordData>" + MOCK_XML + "</RecordData>";
-        try{
-            assertThrows(Marc21XmlParserException.class, (Executable) parser.parse(faulty_xml));
-        }
-        catch(Marc21XmlParserException e){
-            System.out.println(e);
-        }
+        String faulty_xml = "<recordData>" + MOCK_XML + "</recordData>";
+        assertThrows(Marc21XmlParserException.class, () -> {
+            Marc21XmlParser.parse(faulty_xml);
+        });
     }
 
     @Test
     public void testXmlContainingErrors() {
         Marc21XmlParser parser = new Marc21XmlParser();
-        try{
-            assertThrows(Marc21XmlParserException.class, (Executable) parser.parse(MOCK_FAULTY_XML));
-        }
-        catch(Marc21XmlParserException e){
-            System.out.println(e);
-        }
+        assertThrows(Marc21XmlParserException.class, () -> {
+            Marc21XmlParser.parse(MOCK_FAULTY_XML);
+        });
+
     }
 
     @Test
