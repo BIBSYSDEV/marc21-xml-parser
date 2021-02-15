@@ -41,7 +41,7 @@ public class Marc21XmlParser {
      * Parses a SRU-response to convert it into a Reference object.
      *
      * @param xml marc21-xml record
-     * @return simple json in the shape of a Reference object.
+     * @return Reference object.
      * @throws Marc21XmlParserException         some stream reading went south
      */
     public static Reference parse(String xml) throws Marc21XmlParserException {
