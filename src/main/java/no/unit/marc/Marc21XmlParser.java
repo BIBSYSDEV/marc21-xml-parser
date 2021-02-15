@@ -35,16 +35,16 @@ public class Marc21XmlParser {
     private static final String DOES_NOT_START_WITH_RECORD_ERROR = "The xml string does "
             + "not start with the <record> tag, please make sure that is does end and start with <record> </record>";
     private static final String EXCEPTION_MESSAGE = "Caught an error while converting to "
-            + "reference object, make sure that the xml string used is ";
+            + "reference object, make sure that the xml string used is  correct";
 
     /**
-     * Parses a SRU-response to extract the title of an marc21xml-record.
+     * Parses a SRU-response to convert it into a Reference object.
      *
      * @param xml marc21-xml record
      * @return simple json with <code>title</code>
-     * @throws TransformerException         some stream reading went south
+     * @throws Marc21XmlParserException         some stream reading went south
      */
-    public Reference parse(String xml) throws Marc21XmlParserException {
+    public static Reference parse(String xml) throws Marc21XmlParserException {
         Reference reference = new Reference();
         reference.setXmlPresentation(xml);
         try {
@@ -63,14 +63,14 @@ public class Marc21XmlParser {
         return reference;
     }
 
-    private void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
+    private static void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
         if (!xmlDoc.getFirstChild().getNodeName().equals(RECORD)) {
             throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
         }
     }
 
     @SuppressWarnings("PMD.NcssCount")
-    private void extractMetadata(Record record, Reference reference) {
+    private static void extractMetadata(Record record, Reference reference) {
         List<ControlField> controlFieldList = record.getControlFields();
         for (ControlField controlField : controlFieldList) {
             String controlFieldTag = controlField.getTag();
@@ -120,7 +120,7 @@ public class Marc21XmlParser {
                         id = subfield.getData();
                     }
                     if (Objects.nonNull(name)) {
-                        AuthorReference author = this.createAuthor(name, date, id);
+                        AuthorReference author = createAuthor(name, date, id);
                         reference.addAuthor(author);
                     }
                     break;
@@ -158,11 +158,11 @@ public class Marc21XmlParser {
         }
     }
 
-    private AuthorReference createAuthor(String name, String date, String id) {
+    private static AuthorReference createAuthor(String name, String date, String id) {
         return new AuthorReference(name, date, id);
     }
 
-    private void handleTitles(Reference reference, DataField dataField) {
+    private static void handleTitles(Reference reference, DataField dataField) {
         if (StringUtils.isEmpty(reference.getMainTitle())) {
             extractSubfieldData(dataField, reference::setMainTitle, Marc21Constants.MARC_CODE_A);
             extractSubfieldData(dataField, reference::setParalleltitle, Marc21Constants.MARC_CODE_B);
@@ -171,7 +171,7 @@ public class Marc21XmlParser {
         }
     }
 
-    private void extractSubfieldData(DataField dataField, Consumer<String> setParalleltitle, char subCode) {
+    private static void extractSubfieldData(DataField dataField, Consumer<String> setParalleltitle, char subCode) {
         Subfield subfield;
         subfield = dataField.getSubfield(subCode);
         if (subfield != null) {
@@ -180,13 +180,13 @@ public class Marc21XmlParser {
         }
     }
 
-    private Record asMarcRecord(Document doc) throws TransformerException {
+    private static Record asMarcRecord(Document doc) throws TransformerException {
         ByteArrayOutputStream outputStream = removeStylesheet(doc);
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray())).next();
     }
 
 
-    private ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
+    private static ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
         Source source = new DOMSource(result);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Result outputTarget = new StreamResult(outputStream);
@@ -194,7 +194,7 @@ public class Marc21XmlParser {
         return outputStream;
     }
 
-    private Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException  {
+    private static Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException  {
         Document document;
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

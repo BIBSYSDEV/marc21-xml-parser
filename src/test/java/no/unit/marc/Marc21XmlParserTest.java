@@ -1,10 +1,13 @@
 package no.unit.marc;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class Marc21XmlParserTest {
+
+    public static final String MOCK_ID = "991004248644702201";
 
     public static final String MOCK_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
             + "    <leader>00667caa a2200205 c 4500</leader>\n"
@@ -74,17 +77,49 @@ class Marc21XmlParserTest {
             + "    </datafield>\n"
             + "</record>";
 
+    public static final String MOCK_FAULTY_XML = "<record xmlns=\"http://www.loc.gov/MARC21/slim\">\n"
+            + "    <leader>00667caa a2200205 c 4500</leader>\n"
+            + "    <controlfield tag=\"001\">991004248644702201</controlfield>\n"
+            + "    <controlfield tag=\"005\">20190130103301.0</controlfield>\n"
+            + "    <controlfield tag=\"007\">ta</controlfield>\n"
+            + "    <controlfield tag=\"008\">100222s2009 xx#||||f||||||000|u|eng|d</controlfield>\n"
+            + "    <field tag=\"020\" ind1=\" \" ind2=\" \">\n"
+            + "        <subfield code=\"a\">1234567892</subfield>\n"
+            + "    </datafield>\n"
+            + "    </record>";
+
     @Test
     public void testXmlNotStartingWithRecordTag() {
         Marc21XmlParser parser = new Marc21XmlParser();
-        try {
-            Reference reference = parser.parse(MOCK_XML);
-            System.out.println(reference.getId());
-            System.out.println(reference.getIsbn());
-        } catch (Marc21XmlParserException e) {
-            System.out.println(e.getMessage());
+        String faulty_xml = "<RecordData>" + MOCK_XML + "</RecordData>";
+        try{
+            assertThrows(Marc21XmlParserException.class, (Executable) parser.parse(faulty_xml));
         }
-        assertTrue(true);
+        catch(Marc21XmlParserException e){
+            System.out.println(e);
+        }
+    }
 
+    @Test
+    public void testXmlContainingErrors() {
+        Marc21XmlParser parser = new Marc21XmlParser();
+        try{
+            assertThrows(Marc21XmlParserException.class, (Executable) parser.parse(MOCK_FAULTY_XML));
+        }
+        catch(Marc21XmlParserException e){
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    public void testGetMethodsFromReference() {
+        Marc21XmlParser parser = new Marc21XmlParser();
+        try{
+            Reference reference = parser.parse(MOCK_XML);
+            assertEquals(MOCK_ID, reference.getId());
+        }
+        catch(Marc21XmlParserException e){
+            System.out.println(e);
+        }
     }
 }
