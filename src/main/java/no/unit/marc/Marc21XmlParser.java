@@ -28,33 +28,49 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class RecordParser {
+public class Marc21XmlParser {
 
-    public static final String EMPTY_STRING = "";
-    public static final String CLOSING_BRACKET = ")";
+    private static final String EMPTY_STRING = "";
+    private static final String RECORD = "record";
+    private static final String DOES_NOT_START_WITH_RECORD_ERROR = "The xml string does "
+            + "not start with the <record> tag, please make sure that is does end and start with <record> </record>";
+    private static final String EXCEPTION_MESSAGE = "Caught an error while converting to "
+            + "reference object, make sure that the xml string used is  correct";
 
     /**
-     * Parses a SRU-response to extract the title of an marc21xml-record.
+     * Parses a SRU-response to convert it into a Reference object.
      *
      * @param xml marc21-xml record
-     * @return simple json with <code>title</code>
-     * @throws TransformerException         some stream reading went south
+     * @return Reference object.
+     * @throws Marc21XmlParserException         some stream reading went south
      */
-    public Reference parse(String xml) throws TransformerException {
+    public static Reference parse(String xml) throws Marc21XmlParserException {
         Reference reference = new Reference();
         reference.setXmlPresentation(xml);
-        Document doc = asDocument(xml);
-        LinePresentation linePresentation = new LinePresentation(doc);
-        reference.setLinePresentation(linePresentation.getPresentation());
-        Record record = asMarcRecord(doc);
-        if (record != null) {
-            extractMetadata(record, reference);
+        try {
+            Document doc = asDocument(xml);
+            checkFirstTag(doc);
+            LinePresentation linePresentation = new LinePresentation(doc);
+            reference.setLinePresentation(linePresentation.getPresentation());
+            Record record = asMarcRecord(doc);
+
+            if (record != null) {
+                extractMetadata(record, reference);
+            }
+        } catch (TransformerException | ParserConfigurationException | SAXException | IOException e) {
+            throw new Marc21XmlParserException(EXCEPTION_MESSAGE, e);
         }
         return reference;
     }
 
+    private static void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
+        if (!xmlDoc.getFirstChild().getNodeName().equals(RECORD)) {
+            throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
+        }
+    }
+
     @SuppressWarnings("PMD.NcssCount")
-    private void extractMetadata(Record record, Reference reference) {
+    private static void extractMetadata(Record record, Reference reference) {
         List<ControlField> controlFieldList = record.getControlFields();
         for (ControlField controlField : controlFieldList) {
             String controlFieldTag = controlField.getTag();
@@ -104,7 +120,7 @@ public class RecordParser {
                         id = subfield.getData();
                     }
                     if (Objects.nonNull(name)) {
-                        AuthorReference author = this.createAuthor(name, date, id);
+                        AuthorReference author = createAuthor(name, date, id);
                         reference.addAuthor(author);
                     }
                     break;
@@ -142,11 +158,11 @@ public class RecordParser {
         }
     }
 
-    private AuthorReference createAuthor(String name, String date, String id) {
+    private static AuthorReference createAuthor(String name, String date, String id) {
         return new AuthorReference(name, date, id);
     }
 
-    private void handleTitles(Reference reference, DataField dataField) {
+    private static void handleTitles(Reference reference, DataField dataField) {
         if (StringUtils.isEmpty(reference.getMainTitle())) {
             extractSubfieldData(dataField, reference::setMainTitle, Marc21Constants.MARC_CODE_A);
             extractSubfieldData(dataField, reference::setParalleltitle, Marc21Constants.MARC_CODE_B);
@@ -155,7 +171,7 @@ public class RecordParser {
         }
     }
 
-    private void extractSubfieldData(DataField dataField, Consumer<String> setParalleltitle, char subCode) {
+    private static void extractSubfieldData(DataField dataField, Consumer<String> setParalleltitle, char subCode) {
         Subfield subfield;
         subfield = dataField.getSubfield(subCode);
         if (subfield != null) {
@@ -164,13 +180,13 @@ public class RecordParser {
         }
     }
 
-    private Record asMarcRecord(Document doc) throws TransformerException {
+    private static Record asMarcRecord(Document doc) throws TransformerException {
         ByteArrayOutputStream outputStream = removeStylesheet(doc);
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray())).next();
     }
 
 
-    private ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
+    private static ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
         Source source = new DOMSource(result);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Result outputTarget = new StreamResult(outputStream);
@@ -178,17 +194,15 @@ public class RecordParser {
         return outputStream;
     }
 
-    private Document asDocument(String sruxml) {
-        Document document = null;
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            String removedMarcInSruXml = sruxml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
-            InputSource is = new InputSource(new StringReader(removedMarcInSruXml));
-            document = builder.parse(is);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.out.println("Something went wrong during parsing of sruResponse. " + e.getMessage());
-        }
+    private static Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException  {
+        Document document;
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        String removedMarcInSruXml = sruxml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
+        InputSource is = new InputSource(new StringReader(removedMarcInSruXml));
+        document = builder.parse(is);
+
         return document;
     }
 }

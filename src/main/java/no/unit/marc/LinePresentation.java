@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class LinePresentation {
+class LinePresentation {
 
     public static final String LDR = "ldr";
     public static final String EMPTY_STRING = "";
