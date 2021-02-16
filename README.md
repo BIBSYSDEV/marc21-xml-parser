@@ -6,4 +6,4 @@ The parser throws Marc21XmlParserExceptions that need to be caugth.
 ## To use the library: 
 Add the following to your build.gradle file
 1. Add "maven { url 'https://jitpack.io' }" to the list om repositories.
-2. Add "implementation 'com.github.BIBSYSDEV:marc21-xml-parser:"Version"'" to your dependencies
+2. Add "implementation 'com.github.BIBSYSDEV:marc21-xml-parser:_version_'" to your dependencies
