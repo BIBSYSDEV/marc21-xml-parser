@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class Marc21XmlParser {
+public class Marc21RecordParser {
 
     private static final String EMPTY_STRING = "";
     private static final String RECORD = "record";
@@ -38,13 +38,13 @@ public class Marc21XmlParser {
             + "reference object, make sure that the xml string used is  correct";
 
     /**
-     * Parses a SRU-response to convert it into a Reference object.
+     * Parses an xml representation of a Marc21 record to convert it into a Reference object.
      *
      * @param xml marc21-xml record
      * @return Reference object.
      * @throws Marc21XmlParserException         some stream reading went south
      */
-    public static Reference parse(String xml) throws Marc21XmlParserException {
+    public static Reference getReferenceObjectFromMarc21XmlRecord(String xml) throws Marc21XmlParserException {
         Reference reference = new Reference();
         reference.setXmlPresentation(xml);
         try {
