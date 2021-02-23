@@ -1,5 +1,6 @@
 package no.unit.marc;
 
+import no.unit.marc.utils.DocumentBuilderCreator;
 import no.unit.marc.utils.StringUtils;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.marc.ControlField;
@@ -11,7 +12,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -42,7 +42,7 @@ public class Marc21RecordParser {
      *
      * @param xml marc21-xml record
      * @return Reference object.
-     * @throws Marc21XmlParserException         some stream reading went south
+     * @throws Marc21XmlParserException some stream reading went south
      */
     public static Reference getReferenceObjectFromMarc21XmlRecord(String xml) throws Marc21XmlParserException {
         Reference reference = new Reference();
@@ -185,7 +185,6 @@ public class Marc21RecordParser {
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray())).next();
     }
 
-
     private static ByteArrayOutputStream removeStylesheet(Document result) throws TransformerException {
         Source source = new DOMSource(result);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -194,15 +193,10 @@ public class Marc21RecordParser {
         return outputStream;
     }
 
-    private static Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException  {
-        Document document;
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
+    private static Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilder builder = DocumentBuilderCreator.createSecureDocumentBuilder();
         String removedMarcInSruXml = sruxml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
         InputSource is = new InputSource(new StringReader(removedMarcInSruXml));
-        document = builder.parse(is);
-
-        return document;
+        return builder.parse(is);
     }
 }

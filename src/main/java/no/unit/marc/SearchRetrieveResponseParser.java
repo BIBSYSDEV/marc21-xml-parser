@@ -1,5 +1,6 @@
 package no.unit.marc;
 
+import no.unit.marc.utils.DocumentBuilderCreator;
 import org.marc4j.MarcXmlReader;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.Record;
@@ -11,7 +12,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -64,7 +64,7 @@ public class SearchRetrieveResponseParser {
     /**
      * Get reference objects from searchRetrieveResponse which has given ISBN in field 020$a.
      *
-     * @param xml XML as String. Must have format of searchRetrieveResponse from alma
+     * @param xml  XML as String. Must have format of searchRetrieveResponse from alma
      * @param isbn ISBN which records will be filtered for
      * @return List of records as Reference objects
      * @throws ParsingException When there are errors during parsing to XML and Marc21-objects
@@ -94,8 +94,7 @@ public class SearchRetrieveResponseParser {
             ParserConfigurationException,
             IOException,
             SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        DocumentBuilder builder = DocumentBuilderCreator.createSecureDocumentBuilder();
         String removedMarcInSruXml = xml.replace(MARC_PREFIX, "");
         String removedSpaceBetweenElements = removedMarcInSruXml.replaceAll(">[\\s\r\n]*<", "><");
         InputSource is = new InputSource(new StringReader(removedSpaceBetweenElements));
