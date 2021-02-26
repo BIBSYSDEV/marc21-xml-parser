@@ -193,9 +193,9 @@ public class Marc21RecordParser {
         return outputStream;
     }
 
-    private static Document asDocument(String sruxml) throws ParserConfigurationException, SAXException, IOException {
+    private static Document asDocument(String sruXml) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilder builder = DocumentBuilderCreator.createSecureDocumentBuilder();
-        String removedMarcInSruXml = sruxml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
+        String removedMarcInSruXml = sruXml.replace(Marc21Constants.MARC_PREFIX, EMPTY_STRING);
         InputSource is = new InputSource(new StringReader(removedMarcInSruXml));
         return builder.parse(is);
     }
