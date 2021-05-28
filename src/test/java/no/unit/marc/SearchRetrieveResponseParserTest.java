@@ -12,6 +12,7 @@ import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_1;
 import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_2;
 import static no.unit.marc.TestData.SRR_THREE_HITS_ISBN;
 import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_THREE_HITS;
+import static no.unit.marc.TestData.VALID_SEARCH_RETRIVE_RESPONSE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -43,5 +44,23 @@ public class SearchRetrieveResponseParserTest {
         assertEquals(SRR_ONE_HIT_ID, referenceObjects.get(0).getId());
         assertEquals(SRR_ONE_HIT_MAIN_TITLE, referenceObjects.get(0).getMainTitle());
         assertEquals(SRR_ONE_HIT_YEAR, referenceObjects.get(0).getYear());
+    }
+
+    /**
+     * This fails unless you add a number to make sure the second "leader" tag is 24 chars long.
+     * Why dont the others fail for that same reason?
+     * use 1449345379 as the isbn corresponding to the record.
+     * The isbn13 version is 9781449345372.
+     * None of the above give results in from the alma-sru-proxy.
+     * Use 1-4493-4537-9 to get a response.
+     * @throws Exception
+     */
+    @Test
+    void gettingCorrectReferenceWithHyphendIsbn() throws Exception {
+        List<Reference> referenceObjects = SearchRetrieveResponseParser
+                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "1-4493-4537-9");
+        for (Reference ref: referenceObjects) {
+            System.out.println(ref.getId());
+        }
     }
 }

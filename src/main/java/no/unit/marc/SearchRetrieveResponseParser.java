@@ -73,6 +73,7 @@ public class SearchRetrieveResponseParser {
             throws ParsingException {
         try {
             List<Reference> referenceObjects = new ArrayList<>();
+            System.out.println(getMarcFriendlyDocuments(xml).size());
             for (Document marcFriendlyDocument : getMarcFriendlyDocuments(xml)) {
                 Record record = asMarcRecords(marcFriendlyDocument).next();
                 for (DataField dataField : record.getDataFields()) {
@@ -129,6 +130,8 @@ public class SearchRetrieveResponseParser {
         Subfield subfield = dataField.getSubfield(MARC_CODE_A);
         if (subfield != null) {
             String isbnFromDataField = subfield.getData();
+            System.out.println("isbn from datafield: " + isbnFromDataField + "Length is: " + isbnFromDataField.length());
+            System.out.println("isbn from search: " + isbn + "Length is: " +isbn.length());
             return isbn.equals(isbnFromDataField);
         }
         return false;
