@@ -1,18 +1,11 @@
 package no.unit.marc;
 
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
 
 import java.util.List;
 
-import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_ONE_HIT;
-import static no.unit.marc.TestData.SRR_ONE_HIT_ID;
-import static no.unit.marc.TestData.SRR_ONE_HIT_MAIN_TITLE;
-import static no.unit.marc.TestData.SRR_ONE_HIT_YEAR;
-import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_1;
-import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_2;
-import static no.unit.marc.TestData.SRR_THREE_HITS_ISBN;
-import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_THREE_HITS;
-import static no.unit.marc.TestData.VALID_SEARCH_RETRIVE_RESPONSE;
+import static no.unit.marc.TestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -58,9 +51,15 @@ public class SearchRetrieveResponseParserTest {
     @Test
     void gettingCorrectReferenceWithHyphendIsbn() throws Exception {
         List<Reference> referenceObjects = SearchRetrieveResponseParser
-                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "1-4493-4537-9");
+                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "1-4493-4535-2");
         for (Reference ref: referenceObjects) {
             System.out.println(ref.getId());
         }
+    }
+
+    @Test
+    void howManyRecordsInDoc() throws Exception {
+        List<Document> nodeDocs = SearchRetrieveResponseParser.getMarcFriendlyDocuments(TEST_DATA_2);
+        System.out.println(nodeDocs.size());
     }
 }

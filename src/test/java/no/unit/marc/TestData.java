@@ -367,6 +367,359 @@ public class TestData {
             + "</extraResponseData>\n"
             + "</searchRetrieveResponse>";
 
+    public static final String TEST_DATA_2 =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+            "<searchRetrieveResponse xmlns=\"http://www.loc.gov/zing/srw/\">\n" +
+            "  <version>1.2</version>\n" +
+            "  <numberOfRecords>2</numberOfRecords>\n" +
+            "  <records>\n" +
+            "    <record>\n" +
+            "      <recordSchema>marcxml</recordSchema>\n" +
+            "      <recordPacking>xml</recordPacking>\n" +
+            "      <recordData>\n" +
+            "        <record xmlns=\"http://www.loc.gov/MARC21/slim\">\n" +
+            "          <leader>02692nam a22006733u 4500</leader>\n" +
+            "          <controlfield tag=\"001\">999919902837102201</controlfield>\n" +
+            "          <controlfield tag=\"005\">20170821193423.0</controlfield>\n" +
+            "          <controlfield tag=\"006\">m        d</controlfield>\n" +
+            "          <controlfield tag=\"007\">cr -n---------</controlfield>\n" +
+            "          <controlfield tag=\"008\">140519s2003|||||||     s|||||||||||eng|d</controlfield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">1-107-12642-8</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-521-02105-7</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">9786610414512</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-511-30641-5</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-511-06746-1</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">1-280-41451-0</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-511-20338-1</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-511-17943-X</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0-511-54265-8</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(CKB)1000000000107042</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(EBL)217846</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(OCoLC)57254230</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(SSID)ssj0000112040</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(PQKBManifestationID)11133967</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(PQKBTitleCode)TC0000112040</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(PQKBWorkID)10085778</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(PQKB)11298111</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(UkCbUP)CR9780511542657</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(EXLCZ)991000000000107042</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"040\">\n" +
+            "            <subfield code=\"a\">AU-PeEL</subfield>\n" +
+            "            <subfield code=\"b\">eng</subfield>\n" +
+            "            <subfield code=\"c\">AU-PeEL</subfield>\n" +
+            "            <subfield code=\"d\">AU-PeEL</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"041\">\n" +
+            "            <subfield code=\"a\">eng</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"4\" tag=\"050\">\n" +
+            "            <subfield code=\"a\">SB363 .J33 2003</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"0\" tag=\"082\">\n" +
+            "            <subfield code=\"a\">634</subfield>\n" +
+            "            <subfield code=\"a\">634.11</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"1\" ind2=\" \" tag=\"100\">\n" +
+            "            <subfield code=\"a\">Jackson, John E.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"1\" ind2=\"4\" tag=\"245\">\n" +
+            "            <subfield code=\"a\">The Biology of Apples and Pears</subfield>\n" +
+            "            <subfield code=\"h\">[electronic resource].</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"1\" tag=\"264\">\n" +
+            "            <subfield code=\"a\">Cambridge :</subfield>\n" +
+            "            <subfield code=\"b\">Cambridge University Press,</subfield>\n" +
+            "            <subfield code=\"c\">2003.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"300\">\n" +
+            "            <subfield code=\"a\">1 online resource (502 p.)</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"336\">\n" +
+            "            <subfield code=\"a\">text</subfield>\n" +
+            "            <subfield code=\"b\">txt</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"337\">\n" +
+            "            <subfield code=\"a\">computer</subfield>\n" +
+            "            <subfield code=\"b\">c</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"338\">\n" +
+            "            <subfield code=\"a\">online resource</subfield>\n" +
+            "            <subfield code=\"b\">cr</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"1\" ind2=\" \" tag=\"490\">\n" +
+            "            <subfield code=\"a\">The Biology of Horticultural Crops</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"500\">\n" +
+            "            <subfield code=\"a\">Description based upon print version of record.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\" \" tag=\"505\">\n" +
+            "            <subfield code=\"a\">Cover; Half-title; Series-title; Title; Copyright; Contents; Preface; Acknowledgements; Introduction; 1 The growing of apples and pears; 2 Apples and pears and their relatives; 3 Apple and pear root systems: induction, development, structure and function; 4 The graft union, grafting and budding; 5 Mechanisms of rootstock and interstock effects on scion vigour; 6 The shoot system; 7 Leaves, canopies and light interception; 8 Photosynthesis, respiration, and carbohydrate transport, partitioning and storage; 9 Flowers and fruits; 10 Eating quality and its retention; 11 Mineral nutrition</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"8\" ind2=\" \" tag=\"505\">\n" +
+            "            <subfield code=\"a\">12 Water relations13 Diseases, pests, and resistance to these; 14 Biotechnology of apples and pears; Cultivar Index; General Index</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"520\">\n" +
+            "            <subfield code=\"a\">A comprehensive, up-to-date reference book on the biology of apples and pears.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"546\">\n" +
+            "            <subfield code=\"a\">English</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"4\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Apples.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"4\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Fruits.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"4\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Pear.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"0\" tag=\"655\">\n" +
+            "            <subfield code=\"a\">Electronic books.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"0\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Apples</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"0\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Pear</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Agriculture</subfield>\n" +
+            "            <subfield code=\"2\">HILCC</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Earth &amp; Environmental Sciences</subfield>\n" +
+            "            <subfield code=\"2\">HILCC</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Plant Sciences</subfield>\n" +
+            "            <subfield code=\"2\">HILCC</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"776\">\n" +
+            "            <subfield code=\"z\">0-521-38018-9</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"776\">\n" +
+            "            <subfield code=\"z\">0-511-06533-7</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"4\" tag=\"830\">\n" +
+            "            <subfield code=\"a\">The Biology of Horticultural Crops</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_UBA</subfield>\n" +
+            "            <subfield code=\"6\">999919970005302209</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_UBO</subfield>\n" +
+            "            <subfield code=\"6\">999920236918102204</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_HIOA</subfield>\n" +
+            "            <subfield code=\"6\">999919971163302212</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_MF</subfield>\n" +
+            "            <subfield code=\"6\">999919706753002227</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_NLA</subfield>\n" +
+            "            <subfield code=\"6\">999919727248202228</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_NMH</subfield>\n" +
+            "            <subfield code=\"6\">999919695307902309</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_UBTO</subfield>\n" +
+            "            <subfield code=\"6\">999920132591502205</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_NMBU</subfield>\n" +
+            "            <subfield code=\"6\">999919755085202213</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_HIB</subfield>\n" +
+            "            <subfield code=\"6\">999920113318202221</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_FHS</subfield>\n" +
+            "            <subfield code=\"6\">999919765930002275</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_DIAKON</subfield>\n" +
+            "            <subfield code=\"6\">999919690750902247</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_NTNU_UB</subfield>\n" +
+            "            <subfield code=\"6\">999919929956002203</subfield>\n" +
+            "            <subfield code=\"9\">E</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"906\">\n" +
+            "            <subfield code=\"a\">BOOK</subfield>\n" +
+            "          </datafield>\n" +
+            "        </record>\n" +
+            "      </recordData>\n" +
+            "      <recordIdentifier>999919902837102201</recordIdentifier>\n" +
+            "      <recordPosition>1</recordPosition>\n" +
+            "    </record>\n" +
+            "    <record>\n" +
+            "      <recordSchema>marcxml</recordSchema>\n" +
+            "      <recordPacking>xml</recordPacking>\n" +
+            "      <recordData>\n" +
+            "        <record xmlns=\"http://www.loc.gov/MARC21/slim\">\n" +
+            "          <leader>01307cam a2200313 c 4500</leader>\n" +
+            "          <controlfield tag=\"001\">990518261864702201</controlfield>\n" +
+            "          <controlfield tag=\"005\">20171205184805.0</controlfield>\n" +
+            "          <controlfield tag=\"007\">ta</controlfield>\n" +
+            "          <controlfield tag=\"008\">051122s2005    xx#|||||||||||000|u|eng|d</controlfield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"020\">\n" +
+            "            <subfield code=\"a\">0521021057</subfield>\n" +
+            "            <subfield code=\"q\">h.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">051826186-47bibsys_network</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"035\">\n" +
+            "            <subfield code=\"a\">(NO-TrBIB)051826186</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"040\">\n" +
+            "            <subfield code=\"a\">NO-TrBIB</subfield>\n" +
+            "            <subfield code=\"b\">nob</subfield>\n" +
+            "            <subfield code=\"e\">katreg</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"080\">\n" +
+            "            <subfield code=\"a\">581.47</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"080\">\n" +
+            "            <subfield code=\"a\">634.1/.8</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"1\" ind2=\" \" tag=\"100\">\n" +
+            "            <subfield code=\"a\">Jackson, John E.</subfield>\n" +
+            "            <subfield code=\"0\">(NO-TrBIB)90132168</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"1\" ind2=\"0\" tag=\"245\">\n" +
+            "            <subfield code=\"a\">The biology of apples and pears</subfield>\n" +
+            "            <subfield code=\"c\">John E. Jackson</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"260\">\n" +
+            "            <subfield code=\"a\">London</subfield>\n" +
+            "            <subfield code=\"b\">Cambridge University Press</subfield>\n" +
+            "            <subfield code=\"c\">2005</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"300\">\n" +
+            "            <subfield code=\"a\">xii, 488 s.</subfield>\n" +
+            "            <subfield code=\"b\">ill.</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Frukter</subfield>\n" +
+            "            <subfield code=\"2\">noubomn</subfield>\n" +
+            "            <subfield code=\"0\">(NO-TrBIB)REAL001208</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Epler</subfield>\n" +
+            "            <subfield code=\"2\">noubomn</subfield>\n" +
+            "            <subfield code=\"0\">(NO-TrBIB)REAL004661</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\"7\" tag=\"650\">\n" +
+            "            <subfield code=\"a\">Pærer</subfield>\n" +
+            "            <subfield code=\"2\">noubomn</subfield>\n" +
+            "            <subfield code=\"0\">(NO-TrBIB)REAL000098</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"653\">\n" +
+            "            <subfield code=\"a\">epler</subfield>\n" +
+            "            <subfield code=\"a\">pærer</subfield>\n" +
+            "            <subfield code=\"a\">biologi</subfield>\n" +
+            "            <subfield code=\"a\">pomologi</subfield>\n" +
+            "            <subfield code=\"a\">frukt</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\" \" tag=\"776\">\n" +
+            "            <subfield code=\"t\">Biology of apples and pears</subfield>\n" +
+            "            <subfield code=\"w\">991237738814702201</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"4\" ind2=\"2\" tag=\"856\">\n" +
+            "            <subfield code=\"3\">Beskrivelse fra forlaget (kort)</subfield>\n" +
+            "            <subfield code=\"u\">http://content.bibsys.no/content/?type=descr_publ_brief&amp;isbn=0521021057</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"4\" ind2=\"2\" tag=\"856\">\n" +
+            "            <subfield code=\"3\">Beskrivelse fra forlaget (lang)</subfield>\n" +
+            "            <subfield code=\"u\">http://content.bibsys.no/content/?type=descr_publ_full&amp;isbn=0521021057</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"4\" ind2=\"2\" tag=\"856\">\n" +
+            "            <subfield code=\"3\">Innholdsfortegnelse</subfield>\n" +
+            "            <subfield code=\"u\">http://content.bibsys.no/content/?type=toc&amp;isbn=0521021057</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"4\" ind2=\"2\" tag=\"856\">\n" +
+            "            <subfield code=\"3\">Omslagsbilde</subfield>\n" +
+            "            <subfield code=\"u\">http://innhold.bibsys.no/bilde/forside/?size=mini&amp;id=0521021057.JPG</subfield>\n" +
+            "            <subfield code=\"q\">image/jpeg</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\"0\" ind2=\"1\" tag=\"852\">\n" +
+            "            <subfield code=\"a\">47BIBSYS_UBO</subfield>\n" +
+            "            <subfield code=\"6\">990518261864702204</subfield>\n" +
+            "            <subfield code=\"9\">P</subfield>\n" +
+            "          </datafield>\n" +
+            "          <datafield ind1=\" \" ind2=\" \" tag=\"901\">\n" +
+            "            <subfield code=\"a\">80</subfield>\n" +
+            "          </datafield>\n" +
+            "        </record>\n" +
+            "      </recordData>\n" +
+            "      <recordIdentifier>990518261864702201</recordIdentifier>\n" +
+            "      <recordPosition>2</recordPosition>\n" +
+            "    </record>\n" +
+            "  </records>\n" +
+            "  <extraResponseData xmlns:xb=\"http://www.exlibris.com/repository/search/xmlbeans/\">\n" +
+            "    <xb:exact>true</xb:exact>\n" +
+            "    <xb:responseDate>2021-05-28T11:07:10+0200</xb:responseDate>\n" +
+            "  </extraResponseData>\n" +
+            "</searchRetrieveResponse>";
+
     public static final String separator = System.getProperty("line.separator");
     public static final String LINEPRESENTATION_OF_RECORD = "*ldr 01044cam a2200301 c 4500" + separator
             + "*001 991325803064702201" + separator

@@ -90,7 +90,7 @@ public class SearchRetrieveResponseParser {
         }
     }
 
-    private static List<Document> getMarcFriendlyDocuments(String xml)
+    public static List<Document> getMarcFriendlyDocuments(String xml)
             throws XPathExpressionException,
             ParserConfigurationException,
             IOException,
@@ -107,9 +107,12 @@ public class SearchRetrieveResponseParser {
 
         List<Document> marcFriendlyDocuments = new ArrayList<>();
         for (int i = 0; recordsNodes.getLength() > i; i++) {
+            System.out.println(recordsNodes.item(i).getNodeName());
+            System.out.println("Start Record number: " + i);
             Node recordNode = (Node) path.compile("recordData/record")
                     .evaluate(recordsNodes.item(i), XPathConstants.NODE);
             marcFriendlyDocuments.add(transformNodeToNewDocument(builder, recordNode));
+            System.out.println("End Record number: " + i);
         }
         return marcFriendlyDocuments;
     }
