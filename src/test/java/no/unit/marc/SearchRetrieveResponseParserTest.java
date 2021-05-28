@@ -60,6 +60,5 @@ public class SearchRetrieveResponseParserTest {
     @Test
     void howManyRecordsInDoc() throws Exception {
         List<Document> nodeDocs = SearchRetrieveResponseParser.getMarcFriendlyDocuments(TEST_DATA_2);
-        System.out.println(nodeDocs.size());
     }
 }
