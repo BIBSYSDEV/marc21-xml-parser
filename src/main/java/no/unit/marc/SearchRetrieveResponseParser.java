@@ -90,7 +90,7 @@ public class SearchRetrieveResponseParser {
         }
     }
 
-    public static List<Document> getMarcFriendlyDocuments(String xml)
+    protected static List<Document> getMarcFriendlyDocuments(String xml)
             throws XPathExpressionException,
             ParserConfigurationException,
             IOException,

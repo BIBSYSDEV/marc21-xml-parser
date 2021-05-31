@@ -5,7 +5,16 @@ import org.w3c.dom.Document;
 
 import java.util.List;
 
-import static no.unit.marc.TestData.*;
+import static no.unit.marc.TestData.VALID_SEARCH_RETRIVE_RESPONSE;
+import static no.unit.marc.TestData.TEST_DATA_2;
+import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_THREE_HITS;
+import static no.unit.marc.TestData.SRR_ONE_HIT_ID;
+import static no.unit.marc.TestData.SRR_ONE_HIT_MAIN_TITLE;
+import static no.unit.marc.TestData.SRR_ONE_HIT_YEAR;
+import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_1;
+import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_2;
+import static no.unit.marc.TestData.SRR_THREE_HITS_ISBN;
+import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_ONE_HIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -46,12 +55,13 @@ public class SearchRetrieveResponseParserTest {
      * The isbn13 version is 9781449345372.
      * None of the above give results in from the alma-sru-proxy.
      * Use 1-4493-4537-9 to get a response.
-     * @throws Exception
+     * @throws Exception When something fails.
      */
     @Test
     void gettingCorrectReferenceWithHyphendIsbn() throws Exception {
         List<Reference> referenceObjects = SearchRetrieveResponseParser
-                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "14-49-34-535-2");
+                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE,
+                        "14-49-34-535-2");
         for (Reference ref: referenceObjects) {
             System.out.println(ref.getId());
         }
