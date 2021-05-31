@@ -73,7 +73,7 @@ public class SearchRetrieveResponseParser {
             throws ParsingException {
         try {
             List<Reference> referenceObjects = new ArrayList<>();
-            System.out.println(getMarcFriendlyDocuments(xml).size());
+            System.out.println("Number of records: " + getMarcFriendlyDocuments(xml).size());
             for (Document marcFriendlyDocument : getMarcFriendlyDocuments(xml)) {
                 Record record = asMarcRecords(marcFriendlyDocument).next();
                 for (DataField dataField : record.getDataFields()) {
@@ -107,12 +107,9 @@ public class SearchRetrieveResponseParser {
 
         List<Document> marcFriendlyDocuments = new ArrayList<>();
         for (int i = 0; recordsNodes.getLength() > i; i++) {
-            System.out.println(recordsNodes.item(i).getNodeName());
-            System.out.println("Start Record number: " + i);
             Node recordNode = (Node) path.compile("recordData/record")
                     .evaluate(recordsNodes.item(i), XPathConstants.NODE);
             marcFriendlyDocuments.add(transformNodeToNewDocument(builder, recordNode));
-            System.out.println("End Record number: " + i);
         }
         return marcFriendlyDocuments;
     }
@@ -132,10 +129,9 @@ public class SearchRetrieveResponseParser {
     private static boolean theDataFieldHasCorrectIsbnInSubfield(DataField dataField, String isbn) {
         Subfield subfield = dataField.getSubfield(MARC_CODE_A);
         if (subfield != null) {
-            String isbnFromDataField = subfield.getData();
-            System.out.println("isbn from datafield: " + isbnFromDataField + "Length is: " + isbnFromDataField.length());
-            System.out.println("isbn from search: " + isbn + "Length is: " +isbn.length());
-            return isbn.equals(isbnFromDataField);
+            String isbnFromDataField = subfield.getData().replace("-", "");
+            System.out.println("Isbn found on record: " + isbnFromDataField);
+            return isbn.replace("-", "").equals(isbnFromDataField);
         }
         return false;
     }

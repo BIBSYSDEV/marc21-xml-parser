@@ -51,7 +51,7 @@ public class SearchRetrieveResponseParserTest {
     @Test
     void gettingCorrectReferenceWithHyphendIsbn() throws Exception {
         List<Reference> referenceObjects = SearchRetrieveResponseParser
-                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "1-4493-4535-2");
+                .getReferenceObjectsFromSearchRetrieveResponseWithCorrectIsbn(VALID_SEARCH_RETRIVE_RESPONSE, "14-49-34-535-2");
         for (Reference ref: referenceObjects) {
             System.out.println(ref.getId());
         }
