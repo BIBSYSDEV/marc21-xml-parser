@@ -6,11 +6,13 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
+apply plugin: 'maven'
+
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_11  // source-code version and must be <= targetCompatibility
-targetCompatibility = JavaVersion.VERSION_11 // bytecode target version
+sourceCompatibility = JavaVersion.VERSION_1_8  // source-code version and must be <= targetCompatibility
+targetCompatibility = JavaVersion.VERSION_1_8// bytecode target version
 
 repositories {
     mavenCentral()
@@ -41,9 +43,6 @@ test {
     finalizedBy jacocoTestReport
 }
 
-// We don't want a jar, just a fatJar
-jar.enabled = false
-project.tasks.build.dependsOn project.tasks.shadowJar
 
 pmd {
     ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/ruleset.xml')
@@ -85,7 +84,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'METHOD'
                 value = 'COVEREDRATIO'
-                minimum = 0.67
+                minimum = 0.7
             }
         }
 
@@ -93,7 +92,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'CLASS'
                 value = 'COVEREDRATIO'
-                minimum = 0.9
+                minimum = 0.7
             }
         }
     }
