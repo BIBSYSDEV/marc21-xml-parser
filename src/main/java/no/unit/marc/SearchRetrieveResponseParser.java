@@ -131,7 +131,8 @@ public class SearchRetrieveResponseParser {
         if (subfield != null) {
             String isbnFromDataField = subfield.getData().replace("-", "");
             System.out.println("Isbn found on record: " + isbnFromDataField);
-            return isbn.replace("-", "").equals(isbnFromDataField);
+            String strippedIsbn = isbn.replace("-", "");
+            return isbnFromDataField.contains(strippedIsbn);
         }
         return false;
     }
