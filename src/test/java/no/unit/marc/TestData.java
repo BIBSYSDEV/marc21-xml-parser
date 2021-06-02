@@ -209,7 +209,7 @@ public class TestData {
                             + "<controlfield tag=\"007\">cr -n---------</controlfield>\n"
                             + "<controlfield tag=\"008\">131022s2013 caua o 000 0 eng d</controlfield>\n"
                             + "<datafield ind1=\" \" ind2=\" \" tag=\"020\">\n"
-                                + "<subfield code=\"a\">1-4493-4535-2</subfield>\n"
+                                + "<subfield code=\"a\">1-4493-4535-2 (hbk.)</subfield>\n"
                             + "</datafield>\n"
                             + "<datafield ind1=\" \" ind2=\" \" tag=\"020\">\n"
                                 + "<subfield code=\"a\">1-4493-4533-6</subfield>\n"
