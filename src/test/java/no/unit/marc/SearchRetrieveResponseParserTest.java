@@ -3,7 +3,6 @@ package no.unit.marc;
 import org.junit.jupiter.api.Test;
 import org.marc4j.marc.DataField;
 import org.marc4j.marc.MarcFactory;
-import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.w3c.dom.Document;
 
@@ -19,9 +18,9 @@ import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_1;
 import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_2;
 import static no.unit.marc.TestData.SRR_THREE_HITS_ISBN;
 import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_ONE_HIT;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SearchRetrieveResponseParserTest {
 
