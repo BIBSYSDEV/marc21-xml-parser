@@ -127,7 +127,7 @@ public class SearchRetrieveResponseParser {
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray()));
     }
 
-    private static boolean theDataFieldHasCorrectIsbnInSubfield(DataField dataField, String isbn) {
+    protected static boolean theDataFieldHasCorrectIsbnInSubfield(DataField dataField, String isbn) {
         boolean isbnFound = false;
         Subfield subfieldA = dataField.getSubfield(MARC_CODE_A);
         Subfield subfieldZ = dataField.getSubfield(MARC_CODE_Z);

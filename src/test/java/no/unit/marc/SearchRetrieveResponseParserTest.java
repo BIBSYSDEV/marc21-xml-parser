@@ -1,6 +1,10 @@
 package no.unit.marc;
 
 import org.junit.jupiter.api.Test;
+import org.marc4j.marc.DataField;
+import org.marc4j.marc.MarcFactory;
+import org.marc4j.marc.Record;
+import org.marc4j.marc.Subfield;
 import org.w3c.dom.Document;
 
 import java.util.List;
@@ -15,8 +19,9 @@ import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_1;
 import static no.unit.marc.TestData.SRR_THREE_HITS_CORRECT_ID_2;
 import static no.unit.marc.TestData.SRR_THREE_HITS_ISBN;
 import static no.unit.marc.TestData.SEARCH_RETRIEVE_RESPONSE_ONE_HIT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class SearchRetrieveResponseParserTest {
 
@@ -70,5 +75,27 @@ public class SearchRetrieveResponseParserTest {
     @Test
     void howManyRecordsInDoc() throws Exception {
         List<Document> nodeDocs = SearchRetrieveResponseParser.getMarcFriendlyDocuments(TEST_DATA_2);
+    }
+
+    @Test
+    public void testDataFieldHasCorrectIsbnInSubfield_A() {
+        Subfield subfield = MarcFactory.newInstance().newSubfield(SearchRetrieveResponseParser.MARC_CODE_A);
+        subfield.setData("978-82-02-54212-2");
+        DataField dataField = MarcFactory.newInstance().newDataField(
+                SearchRetrieveResponseParser.MARC_TAG_020,' ', ' ');
+        dataField.addSubfield(subfield);
+        String isbn = "9788202542122";
+        assertTrue(SearchRetrieveResponseParser.theDataFieldHasCorrectIsbnInSubfield(dataField, isbn));
+    }
+
+    @Test
+    public void testDataFieldHasCorrectIsbnInSubfield_Z() {
+        Subfield subfield = MarcFactory.newInstance().newSubfield(SearchRetrieveResponseParser.MARC_CODE_Z);
+        subfield.setData("978-82-02-54212-2");
+        DataField dataField = MarcFactory.newInstance().newDataField(
+                SearchRetrieveResponseParser.MARC_TAG_020,' ', ' ');
+        dataField.addSubfield(subfield);
+        String isbn = "9788202542122";
+        assertTrue(SearchRetrieveResponseParser.theDataFieldHasCorrectIsbnInSubfield(dataField, isbn));
     }
 }
