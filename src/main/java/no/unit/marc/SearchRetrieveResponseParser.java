@@ -40,6 +40,7 @@ public class SearchRetrieveResponseParser {
     public static final String MARC_PREFIX = "marc:";
     public static final String MARC_TAG_020 = "020";
     public static final char MARC_CODE_A = 'a';
+    public static final char MARC_CODE_Z = 'z';
 
     /**
      * Get reference objects from searchRetrieveResponse.
@@ -126,15 +127,23 @@ public class SearchRetrieveResponseParser {
         return new MarcXmlReader(new ByteArrayInputStream(outputStream.toByteArray()));
     }
 
-    private static boolean theDataFieldHasCorrectIsbnInSubfield(DataField dataField, String isbn) {
-        Subfield subfield = dataField.getSubfield(MARC_CODE_A);
-        if (subfield != null) {
-            String isbnFromDataField = subfield.getData().replace("-", "");
-            System.out.println("Isbn found on record: " + isbnFromDataField);
-            String strippedIsbn = isbn.replace("-", "");
-            return isbnFromDataField.contains(strippedIsbn);
+    protected static boolean theDataFieldHasCorrectIsbnInSubfield(DataField dataField, String isbn) {
+        boolean isbnFound = false;
+        Subfield subfieldA = dataField.getSubfield(MARC_CODE_A);
+        Subfield subfieldZ = dataField.getSubfield(MARC_CODE_Z);
+        if (subfieldA != null) {
+            isbnFound = lookForMatchingIsbn(subfieldA, isbn);
+        } else if (subfieldZ != null) {
+            isbnFound = lookForMatchingIsbn(subfieldZ, isbn);
         }
-        return false;
+        return isbnFound;
+    }
+
+    private static boolean lookForMatchingIsbn(Subfield subfield, String isbn) {
+        String isbnFromDataField = subfield.getData().replace("-", "");
+        System.out.println("Isbn found on record: " + isbnFromDataField);
+        String strippedIsbn = isbn.replace("-", "");
+        return isbnFromDataField.contains(strippedIsbn);
     }
 
     private static String nodeToString(Node node) throws TransformerException {
