@@ -6,7 +6,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'org.owasp.dependencycheck' version '6.2.2'
     id 'nebula.lint' version '17.1.1'
-    id "org.owasp.dependencycheck" version "6.2.0"
 }
 
 apply plugin: 'maven'
