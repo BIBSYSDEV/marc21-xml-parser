@@ -3,7 +3,7 @@ plugins {
     id 'checkstyle'
     id 'pmd'
     id 'jacoco'
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'org.owasp.dependencycheck' version '6.2.2'
     id 'nebula.lint' version '17.1.1'
 }
@@ -13,11 +13,12 @@ apply plugin: 'maven'
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_11 // source-code version and must be <= targetCompatibility
-targetCompatibility = JavaVersion.VERSION_11// bytecode target version
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
