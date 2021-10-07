@@ -3,7 +3,7 @@ plugins {
     id 'checkstyle'
     id 'pmd'
     id 'jacoco'
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'org.owasp.dependencycheck' version '6.2.2'
     id 'nebula.lint' version '17.1.1'
 }
@@ -13,11 +13,12 @@ apply plugin: 'maven'
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_11 // source-code version and must be <= targetCompatibility
-targetCompatibility = JavaVersion.VERSION_11// bytecode target version
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -25,11 +26,11 @@ dependencies {
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.8'
-    implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.9.0'
+    implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.10.0'
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.1'
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.2'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.4'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.8.1'
 
     shadowJar {
         archiveClassifier.set('')
