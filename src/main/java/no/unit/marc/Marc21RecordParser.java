@@ -64,12 +64,12 @@ public class Marc21RecordParser {
     }
 
     private static void checkFirstTag(Document xmlDoc) throws Marc21XmlParserException {
-        if (!xmlDoc.getFirstChild().getNodeName().equals(RECORD)) {
+        if (!RECORD.equals(xmlDoc.getFirstChild().getNodeName())) {
             throw new Marc21XmlParserException(DOES_NOT_START_WITH_RECORD_ERROR);
         }
     }
 
-    @SuppressWarnings("PMD.NcssCount")
+    @SuppressWarnings({"PMD.NcssCount", "PMD.CognitiveComplexity"})
     private static void extractMetadata(Record record, Reference reference) {
         List<ControlField> controlFieldList = record.getControlFields();
         for (ControlField controlField : controlFieldList) {

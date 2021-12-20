@@ -3,12 +3,10 @@ plugins {
     id 'checkstyle'
     id 'pmd'
     id 'jacoco'
-    id 'com.github.johnrengelman.shadow' version '7.1.1'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'org.owasp.dependencycheck' version '6.5.1'
     id 'nebula.lint' version '17.5.0'
 }
-
-apply plugin: 'maven'
 
 group 'no.unit.marc'
 version '1.0-SNAPSHOT'
@@ -19,6 +17,11 @@ targetCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = "7.3.1"
 }
 
 dependencies {

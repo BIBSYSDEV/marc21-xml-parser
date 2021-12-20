@@ -20,6 +20,7 @@ class LinePresentation {
         this.doc = doc;
     }
 
+    @SuppressWarnings("PMD.CognitiveComplexity")
     protected String asLinePresentation() {
         StringBuilder lineFormat = new StringBuilder();
         if (doc != null) {
