@@ -4,7 +4,7 @@ plugins {
     id 'pmd'
     id 'jacoco'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'org.owasp.dependencycheck' version '7.0.4.1'
+    id 'org.owasp.dependencycheck' version '7.1.0.1'
     id 'nebula.lint' version '17.7.0'
 }
 
@@ -32,7 +32,7 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.11.0'
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.1'
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.4.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.5.1'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.8.2'
 
     shadowJar {
